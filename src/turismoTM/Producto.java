@@ -27,8 +27,6 @@ public abstract class Producto {
 	
 	public double getCosto() {
 		return this.costo;
-	}
-	
-	public abstract void setCosto();
+	}	
 
 }

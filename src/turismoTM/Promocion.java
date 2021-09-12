@@ -5,13 +5,15 @@ import java.util.List;
 public class Promocion extends Producto{
 
 	protected List<Atraccion> atracciones;
+	private TipoPromocion tipoPromocion;
 	
 	public Promocion() {};
 	
-	public Promocion(String nombre, Tipo tipo, List<Atraccion> atracciones) {
-		super(nombre, tipo);		
-		this.tiempo = setTiempo(atracciones);		
+	public Promocion(String nombre, TipoPromocion tipoPromo, List<Atraccion> atracciones, Tipo tipo) {
+		super(nombre, tipo);
 		this.atracciones = atracciones;
+		this.tiempo = setTiempo(atracciones);		
+		this.tipoPromocion = tipoPromo;
 	}
 	
 	
@@ -23,15 +25,6 @@ public class Promocion extends Producto{
 			tiempoTotal += at.getTiempo();
 		
 		return tiempoTotal;
-	}
-
-	@Override
-	public void setCosto() {
-		int costoTotal = 0;
-		
-		for(Atraccion at: this.atracciones)
-			costoTotal += at.getCosto();
-		
-		this.costo = costoTotal;
-	}
+	}	
+	
 }

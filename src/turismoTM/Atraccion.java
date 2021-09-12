@@ -17,28 +17,8 @@ public class Atraccion extends Producto {
 		return this.cupo;
 	}
 	
-	public String getNombre() {
-		return this.nombre;
-	}
-	
-	public Tipo getTipo() {
-		return this.tipo;
-	}
-
 	@Override
 	public String toString() {
 		return String.format("%-30s $%.0f \t %s hs. %n",nombre + " [" + tipo.getDescripcion() + "]", costo, tiempo);
 	}
-	
-	@Override
-	public double getCosto() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setCosto() {
-		
-	}
-
 }
