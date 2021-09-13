@@ -16,15 +16,23 @@ public class Promocion extends Producto{
 		this.tipoPromocion = tipoPromo;
 	}
 	
+	@Override
+	public boolean esPromocion() {
+		return true;
+	}
 	
-	
+	public TipoPromocion getTipoPromocion() {
+		return this.tipoPromocion;
+	}
+		
 	private double setTiempo(List<Atraccion> atracciones) {
 		double tiempoTotal = 0;
 		
 		for (Atraccion at: atracciones)
-			tiempoTotal += at.getTiempo();
-		
+			tiempoTotal += at.getTiempo();		
 		return tiempoTotal;
 	}	
+	
+	
 	
 }

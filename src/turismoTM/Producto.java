@@ -25,8 +25,12 @@ public abstract class Producto {
 		return this.nombre;
 	}
 	
-	public double getCosto() {
+	public Double getCosto() {
 		return this.costo;
 	}	
+	
+	public boolean esPromocion() {
+		return false;
+	}
 
 }
