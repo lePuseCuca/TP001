@@ -45,7 +45,7 @@ public class ComparadorProductoTest {
 
 	@Test
 	public void quePrimeroQuedanPreferidosYPromociones() {
-		System.out.println(preferido.getDescripcion());
+		//System.out.println(preferido.getDescripcion());
 		listaProductos = new ArrayList<Producto>(mapaProductos.values());
 		listaProductos.sort(comp);
 		assertTrue (listaProductos.get(0).getTipo() == preferido && listaProductos.get(0).esPromocion());
@@ -53,7 +53,7 @@ public class ComparadorProductoTest {
 	
 	@Test
 	public void queUltimoNoEsPreferidoNiPromocion() {
-		System.out.println(preferido.getDescripcion());
+		//System.out.println(preferido.getDescripcion());
 		listaProductos = new ArrayList<Producto>(mapaProductos.values());
 		listaProductos.sort(comp);
 		assertFalse (listaProductos.get(listaProductos.size()-1).getTipo() == preferido && listaProductos.get(listaProductos.size()-1).esPromocion());

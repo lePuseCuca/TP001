@@ -1,9 +1,11 @@
 package turismoTM;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,27 +34,23 @@ public class LectorArchivos {
 		return usuarios;
 	}
 	
-	public static void cargarProductos(String archivo, Map<String, Producto> destino) {
+	public static Map<String, Atraccion> cargarAtracciones(String archivo) {
 		FileReader fr = null;
 		BufferedReader br = null;
-		Producto temp = null;
+		Map<String, Atraccion> destino = new HashMap<String, Atraccion>();
+		Atraccion temp = null;
 
 		try {
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 			String linea;			
 			while ((linea = br.readLine()) != null) {
-				switch (archivo) {
-					case "atracciones.in":
-						temp = crearAtraccion(linea);
-						break;
-					case "promociones.in":
-						temp = crearPromocion(linea, destino);
-				}
 				
-				if (temp != null)
-					destino.put(temp.getNombre(), temp);
-			}
+				temp = crearAtraccion(linea);				
+				destino.put(temp.getNombre(), temp);
+			}				
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -63,8 +61,40 @@ public class LectorArchivos {
 				e.printStackTrace();
 			}
 		}
+		
+		return destino;
 
 	}
+
+	public static List<Promocion> cargarPromociones(String archivo, Map<String, Atraccion> mapaAtracciones ) {
+		FileReader fr = null;
+		BufferedReader br = null;
+		List<Promocion> listaPromo = new ArrayList<Promocion>();
+		Promocion temp = null;
+
+		try {
+			fr = new FileReader(archivo);
+			br = new BufferedReader(fr);
+			String linea;			
+			while ((linea = br.readLine()) != null) {
+				temp = crearPromocion(linea, mapaAtracciones);
+				listaPromo.add(temp);
+			}			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fr != null)
+					fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listaPromo;
+
+	}
+
 	
 	
 	
@@ -87,7 +117,10 @@ public class LectorArchivos {
 				);
 	}
 	
-	private static Producto crearPromocion(String datos, Map<String, Producto> destino) {
+	private static Promocion crearPromocion(String datos, Map<String, Atraccion> mapaAtracciones) {
+		
+		Promocion promoNueva = null;
+		
 		String[] promo = datos.split(";");
 		String[] atracciones = promo[2].split(",");
 		List<Atraccion> tempAt = new ArrayList<Atraccion>();
@@ -95,41 +128,39 @@ public class LectorArchivos {
 		switch (promo[0]) {
 		case "PORCENTUAL":
 			for (String ID : atracciones) {
-				tempAt.add((Atraccion) destino.get(ID));
+				tempAt.add(mapaAtracciones.get(ID));
 			}
-			return (new PromocionPorcentual(
+			promoNueva = new PromocionPorcentual(
 						promo[1], 
 						TipoPromocion.valueOf(promo[0]), 
 						tempAt,
 						Tipo.valueOf(promo[4]),
-						Double.parseDouble(promo[3]))
-					);
-			
+						Double.parseDouble(promo[3]));	
+			break;			
 		case "ABSOLUTA":
 			for (String ID : atracciones) {
-				tempAt.add((Atraccion) destino.get(ID));
+				tempAt.add(mapaAtracciones.get(ID));
 			}
-			return (new PromocionAbsoluta(
+			promoNueva = new PromocionAbsoluta(
 						promo[1], 
 						TipoPromocion.valueOf(promo[0]), 
 						tempAt,
 						Tipo.valueOf(promo[4]),
-						Double.parseDouble(promo[3]))
-					);
+						Double.parseDouble(promo[3]));
+			break;
 		case "AxB":
 			for (String ID : atracciones) {
-				tempAt.add((Atraccion) destino.get(ID));
+				tempAt.add(mapaAtracciones.get(ID));
 			}
-			return (new PromocionAxB(
+			promoNueva = new PromocionAxB(
 					promo[1], 
 					TipoPromocion.valueOf(promo[0]), 
 					tempAt,
-					(Atraccion) destino.get(promo[3]),
-					Tipo.valueOf(promo[4]))					
-				);
-						
+					mapaAtracciones.get(promo[3]),
+					Tipo.valueOf(promo[4]));	
+			break;
 		}	
-		return null;
+		return promoNueva;
 	}
 }
 

@@ -26,6 +26,9 @@ public class PromocionPorcentual extends Promocion {
 	}
 	
 	public void setCosto() {
-		this.costo = Math.floor(super.getCosto() * ( 1 - (this.descuento/100)));
+		double costoTotal = 0;
+		for(Atraccion atr : this.atracciones)
+			costoTotal += atr.getCosto();
+		this.costo = costoTotal * ( 1 - (this.descuento/100));
 	}
 }

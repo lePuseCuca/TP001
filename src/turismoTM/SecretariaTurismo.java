@@ -8,19 +8,30 @@ import java.util.Map;
 public class SecretariaTurismo {
 	
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
-	private Map<String, Producto> productos = new HashMap<String, Producto>();
+	private Map<String, Atraccion> atracciones = new HashMap<String, Atraccion>();
+	private List<Promocion> promociones = new ArrayList<Promocion>();
+	private List<Producto> productos = new ArrayList<Producto>();
 
+	// Preguntar donde cargar archivos (App?)
 	public SecretariaTurismo() {
 		this.usuarios = LectorArchivos.leerUsuarios("usuarios.in");
-		LectorArchivos.cargarProductos("atracciones.in", productos);
-		LectorArchivos.cargarProductos("promociones.in", productos);
+		atracciones = LectorArchivos.cargarAtracciones("atracciones.in");
+		promociones = LectorArchivos.cargarPromociones("promociones.in", atracciones);
+		setProductos();
 	}
 	
 	public List<Usuario> getUsuarios(){
 		return this.usuarios;
 	}
 	
-	public Map<String, Producto> getProductos(){
+	public List<Producto> getProductos(){
 		return this.productos;
+	}
+	
+	private void setProductos() {
+		for (Promocion promo: this.promociones) 
+			productos.add(promo);
+		for (String nombre : this.atracciones.keySet()) 
+			productos.add(this.atracciones.get(nombre));
 	}
 }
