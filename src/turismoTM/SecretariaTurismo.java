@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -38,26 +39,25 @@ public class SecretariaTurismo {
 		double presupuestoCliente;
 		double tiempoCliente;
 		List<Producto> itinerario;
-		List<Producto> sugerenciasParaUsuario = new ArrayList<Producto>();
+		//List<Producto> sugerenciasParaUsuario = new ArrayList<Producto>();
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
 
 		for (Usuario usr : usuarios) {
 			presupuestoCliente = usr.getPresupuesto();
 			tiempoCliente = usr.getTiempo();
-			sugerenciasParaUsuario = getProductosParaUsuario(usr);
 			itinerario = new ArrayList<Producto>();
+			Iterator<Producto> itr = getProductosParaUsuario(usr).iterator();
 
-			//Pasar a while con iterator y preguntar si tiene plata y tiempo y despues hasNext() 
-			for (Producto sugerencia : sugerenciasParaUsuario) {
-
+			 
+			while ((presupuestoCliente > 0 && tiempoCliente > 0) && itr.hasNext()) {
+				Producto sugerencia = itr.next();
 				if (!atraccionComprada(sugerencia, itinerario)
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
-					if (presupuestoCliente == 0 || tiempoCliente == 0)
-						break;
+					
 					System.out.println(usr.getNombre() + " tu presupuesto es de: $" + presupuestoCliente
 							+ " y dispones de " + tiempoCliente + "hs.");
-					System.out.println("Deseas adquirir: ");
+					System.out.println("Deseas adquirir:");
 					System.out.println(sugerencia);
 					
 					do{
@@ -95,16 +95,20 @@ public class SecretariaTurismo {
 	// Metodo que dado un usuario genera los comparadores y ordena lista de
 	// productos en base a su preferencia.
 	private List<Producto> getProductosParaUsuario(Usuario usr) {
-		List<Producto> resultado = this.productos;
+		List<Producto> resultado = this.productos;		
+		Collections.sort(resultado, generarComparadorProducto(usr.getTipoPreferido()));
+
+		return resultado;
+	}
+	
+	private ComparadorProducto generarComparadorProducto (Tipo tipoPreferido) {
 		List<Comparator<Producto>> comparadores = new ArrayList<Comparator<Producto>>();
-		comparadores.add(new ComparadorTipoPreferido(usr.getTipoPreferido()));
+		comparadores.add(new ComparadorTipoPreferido(tipoPreferido));
 		comparadores.add(new ComparadorClase());
 		comparadores.add(new ComparadorCosto());
 		comparadores.add(new ComparadorTiempo());
-		ComparadorProducto comparadorUsuario = new ComparadorProducto(comparadores);
-		Collections.sort(resultado, comparadorUsuario);
-
-		return resultado;
+		
+		return (new ComparadorProducto(comparadores));				 
 	}
 
 	private boolean atraccionComprada(Producto p, List<Producto> itinerario) {

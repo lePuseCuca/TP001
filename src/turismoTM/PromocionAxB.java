@@ -1,5 +1,6 @@
 package turismoTM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PromocionAxB extends Promocion {
@@ -26,7 +27,7 @@ public class PromocionAxB extends Promocion {
 	
 	@Override
 	public List<Atraccion> getAtracciones(){
-		List<Atraccion> temp = this.atracciones;
+		List<Atraccion> temp = new ArrayList<Atraccion>(this.atracciones);
 		temp.add(this.atraccionSinCargo);
 		return temp;
 	}
