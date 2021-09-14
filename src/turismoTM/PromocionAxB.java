@@ -23,5 +23,12 @@ public class PromocionAxB extends Promocion {
 		detalle += String.format("%30s \t$%.0f \t %s hs. %n", ">Subtotal:", this.getCosto(), tiempo);
 		return detalle + "\n";
 	}	
+	
+	@Override
+	public List<Atraccion> getAtracciones(){
+		List<Atraccion> temp = this.atracciones;
+		temp.add(this.atraccionSinCargo);
+		return temp;
+	}
 
 }
