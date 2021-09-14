@@ -12,18 +12,11 @@ public class PromocionAxB extends Promocion {
 		super(nombre, tipoPromo, atracciones, tipo);
 		this.atraccionSinCargo = atraccionSinCargo;		
 		this.tiempo += atraccionSinCargo.getTiempo();
-		setCosto();
+		super.setCosto();
 	}
 	
 	public String toString() {
 		return this.getNombre();
 	}	
-	
-	private void setCosto() {
-		double costoTotal = 0;
-		for(Atraccion atr : this.atracciones)
-			costoTotal += atr.getCosto();
-		this.costo = costoTotal;
-	}
 
 }

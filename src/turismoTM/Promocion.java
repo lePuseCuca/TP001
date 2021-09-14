@@ -24,14 +24,22 @@ public class Promocion extends Producto{
 	public TipoPromocion getTipoPromocion() {
 		return this.tipoPromocion;
 	}
-		
+	
+	protected void setCosto() {
+		double costoTotal = 0;
+		for(Atraccion atr : atracciones)
+			costoTotal += atr.getCosto();
+		this.costo = costoTotal;
+	}
+	
 	private double setTiempo(List<Atraccion> atracciones) {
-		double tiempoTotal = 0;
-		
+		double tiempoTotal = 0;		
 		for (Atraccion at: atracciones)
 			tiempoTotal += at.getTiempo();		
 		return tiempoTotal;
 	}	
+
+	
 	
 	
 	

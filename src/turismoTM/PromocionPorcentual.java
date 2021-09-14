@@ -9,7 +9,7 @@ public class PromocionPorcentual extends Promocion {
 	public PromocionPorcentual(String nombre, TipoPromocion tipoPromo, List<Atraccion> atracciones, Tipo tipo, double descuento) {
 		super(nombre, tipoPromo, atracciones, tipo);
 		this.descuento = descuento;
-		setCosto();
+		this.setCosto();
 	}
 	
 	public double getDescuento() {
@@ -25,10 +25,9 @@ public class PromocionPorcentual extends Promocion {
 		return this.nombre;
 	}
 	
+	@Override
 	public void setCosto() {
-		double costoTotal = 0;
-		for(Atraccion atr : this.atracciones)
-			costoTotal += atr.getCosto();
-		this.costo = costoTotal * ( 1 - (this.descuento/100));
+		super.setCosto();
+		this.costo = Math.floor(this.costo * ( 1 - (this.descuento/100)));
 	}
 }

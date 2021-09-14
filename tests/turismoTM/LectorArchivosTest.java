@@ -12,11 +12,15 @@ import org.junit.Test;
 public class LectorArchivosTest {
 	
 	private List<Usuario> usuarios;
-	private Map<String, Producto> productos = new HashMap<String, Producto>();
+	private Map<String, Atraccion> atracciones = new HashMap<String, Atraccion>(); 
+	private List<Promocion> promociones;
+	
 	
 	@Before
 	public void setUp() {
-		usuarios = LectorArchivos.leerUsuarios("usuarios.in");		
+		usuarios = LectorArchivos.leerUsuarios("usuarios.in");
+		atracciones = LectorArchivos.cargarAtracciones("atracciones.in");
+		promociones = LectorArchivos.cargarPromociones("promociones.in", atracciones);
 	}
 	
 	@Test
@@ -27,19 +31,13 @@ public class LectorArchivosTest {
 	
 	@Test
 	public void queCargaAtracciones() {
-		LectorArchivos.cargarProductos("atracciones.in", productos);
-		assertTrue(productos.size() > 0);
+		
+		assertTrue(atracciones.size() > 0);
 	}
 	
 	@Test
 	public void queCargaPromociones() {
-		LectorArchivos.cargarProductos("atracciones.in", productos);
-		int tamanioConAtracciones = productos.size();
-		LectorArchivos.cargarProductos("promociones.in", productos);
-		assertTrue(productos.size() > tamanioConAtracciones);
-		assertTrue(productos.containsKey("Pack Aventura"));
-		assertTrue(productos.containsKey("Pack Sabores"));
-		assertTrue(productos.containsKey("Pack Paisajes"));
+		assertTrue(promociones.size() > 0);
 	}
 
 }
