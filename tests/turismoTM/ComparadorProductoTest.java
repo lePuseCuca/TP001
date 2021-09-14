@@ -13,7 +13,8 @@ import org.junit.Test;
 
 public class ComparadorProductoTest {
 
-	private Map<String, Producto> mapaProductos = new HashMap<String, Producto>();;
+	private Map<String, Atraccion> mapaAtracciones = new HashMap<String, Atraccion>();;
+	private List<Promocion> promociones;
 	private List<Producto> listaProductos;	
 	private ComparadorProducto comp;
 	private List<Comparator<Producto>> comparadores;
@@ -22,16 +23,16 @@ public class ComparadorProductoTest {
 	@Before
 	public void setUp() { 
 		Tipo[] tipos = new Tipo[]{ Tipo.AVENTURA, Tipo.DEGUSTACION, Tipo.PAISAJE};
+		//Elegimos un tipo preferido al azar de un arreglo de tipos, y se lo pasamos al comparador por tipo.
+		Double random = Math.random()*3;
+		preferido = tipos[random.intValue()];
+
 		/*Creamos lista de comparadores y los comparadores que va a contener en este orden: 
 		*	TipoPreferido
 		*	Clase
 		*   Costo
 		*   Tiempo
 		*/
-		
-		//Elegimos un tipo preferido al azar de un arreglo de tipos, y se lo pasamos al comparador por tipo.
-		Double random = Math.random()*3;
-		preferido = tipos[random.intValue()];
 		comparadores = new ArrayList<Comparator<Producto>>();
 		comparadores.add(new ComparadorTipoPreferido(preferido));
 		comparadores.add(new ComparadorClase());
@@ -39,24 +40,31 @@ public class ComparadorProductoTest {
 		comparadores.add(new ComparadorTiempo());
 		comp = new ComparadorProducto(comparadores);
 		
-		LectorArchivos.cargarProductos("atracciones.in", mapaProductos);
-		LectorArchivos.cargarProductos("promociones.in", mapaProductos);
+		mapaAtracciones = LectorArchivos.cargarAtracciones("atracciones.in");
+		promociones = LectorArchivos.cargarPromociones("promociones.in", mapaAtracciones);
+		
 	}
 
 	@Test
 	public void quePrimeroQuedanPreferidosYPromociones() {
 		//System.out.println(preferido.getDescripcion());
-		listaProductos = new ArrayList<Producto>(mapaProductos.values());
+		this.cargarListaProductos();
 		listaProductos.sort(comp);
 		assertTrue (listaProductos.get(0).getTipo() == preferido && listaProductos.get(0).esPromocion());
 	}
 	
 	@Test
 	public void queUltimoNoEsPreferidoNiPromocion() {
-		//System.out.println(preferido.getDescripcion());
-		listaProductos = new ArrayList<Producto>(mapaProductos.values());
+		this.cargarListaProductos();
 		listaProductos.sort(comp);
 		assertFalse (listaProductos.get(listaProductos.size()-1).getTipo() == preferido && listaProductos.get(listaProductos.size()-1).esPromocion());
+	}
+	
+	private void cargarListaProductos() {
+		listaProductos = new ArrayList<Producto>(this.mapaAtracciones.values());
+		for(Promocion promo : promociones)
+			listaProductos.add(promo);
+			
 	}
 
 }

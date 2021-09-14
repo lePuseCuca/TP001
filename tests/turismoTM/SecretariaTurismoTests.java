@@ -29,10 +29,9 @@ public class SecretariaTurismoTests {
 	@Test
 	public void nada() {
 		List<Producto> productos = st.getProductos();
-		productos.sort(new ComparadorTiempo());
+		productos.sort(new ComparadorCosto());
 		for(Producto prod : productos)
-			System.out.println(prod.getNombre() + " " + prod.getTiempo());
-		
+			System.out.println(prod.getNombre() + " " + prod.getCosto());		
 	}
 
 }

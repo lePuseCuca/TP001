@@ -12,15 +12,18 @@ import org.junit.Test;
 
 public class ComparadorCostoTest {
 	
-	private Map<String, Producto> mapaProductos = new HashMap<String, Producto>();
+	private Map<String, Atraccion> mapaAtracciones = new HashMap<String, Atraccion>();;
+	private List<Promocion> promociones;
 	private List<Producto> listaProductos;
 	private ComparadorCosto cCosto;
 
 	@Before
 	public void setUp(){
-		LectorArchivos.cargarProductos("atracciones.in", mapaProductos);
-		LectorArchivos.cargarProductos("promociones.in", mapaProductos);
-		listaProductos = new ArrayList<>(mapaProductos.values());
+		mapaAtracciones = LectorArchivos.cargarAtracciones("atracciones.in");
+		promociones = LectorArchivos.cargarPromociones("promociones.in", mapaAtracciones);
+		listaProductos = new ArrayList<>(mapaAtracciones.values());
+		for(Promocion prod : promociones )
+			listaProductos.add(prod);
 		cCosto = new ComparadorCosto(); 
 		
 	}

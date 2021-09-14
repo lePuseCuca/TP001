@@ -12,7 +12,11 @@ public class PromocionAbsoluta extends Promocion{
 	
 	@Override
 	public String toString() {
-		return this.nombre;				
+		String detalle = String.format("%-32s %n",nombre);
+		for (Atraccion atr: atracciones)
+			detalle += "+" + atr; 
+		detalle += String.format("%32s$%.0f \t %s hs. %n", ">Subtotal: ", this.getCosto(), tiempo);
+		return detalle + "\n";			
 	}
 
 }

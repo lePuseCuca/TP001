@@ -1,5 +1,7 @@
 package turismoTM;
 
+import java.util.List;
+
 public class Atraccion extends Producto {
 	
 	private int cupo;
@@ -13,12 +15,34 @@ public class Atraccion extends Producto {
 		
 	}	
 	
-	protected int getCupo() {
+	public int getCupo() {
 		return this.cupo;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%-30s $%.0f \t %s hs. %n",nombre + " [" + tipo.getDescripcion() + "]", costo, tiempo);
+		return String.format("%-30s $%.0f \t %s hs. %n",nombre + " [" + tipo.getDescripcion() + "]", costo, tiempo);		
+	}
+	
+	public boolean restarCupo() {
+		if (this.hayCupo()) {
+			this.cupo -= 1;
+			return true;
+		}		
+		return false;
+	}
+
+	protected boolean hayCupo() {
+		return this.getCupo() > 0;
+	}
+
+	@Override
+	protected List<Atraccion> getAtracciones() {
+		return null;
+	}
+
+	@Override
+	protected boolean venderProducto() {
+		return this.restarCupo();
 	}
 }

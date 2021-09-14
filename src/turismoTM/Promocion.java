@@ -16,6 +16,10 @@ public class Promocion extends Producto{
 		this.tipoPromocion = tipoPromo;
 	}
 	
+	public List<Atraccion> getAtracciones(){
+		return this.atracciones;
+	}
+	
 	@Override
 	public boolean esPromocion() {
 		return true;
@@ -24,15 +28,36 @@ public class Promocion extends Producto{
 	public TipoPromocion getTipoPromocion() {
 		return this.tipoPromocion;
 	}
-		
+	
+	protected void setCosto() {
+		double costoTotal = 0;
+		for(Atraccion atr : atracciones)
+			costoTotal += atr.getCosto();
+		this.costo = costoTotal;
+	}
+	
+	protected boolean hayCupo() {
+		for (Atraccion atr: atracciones)
+			if (atr.getCupo() <= 0 )
+				return false;
+		return true;
+	}
+	
 	private double setTiempo(List<Atraccion> atracciones) {
-		double tiempoTotal = 0;
-		
+		double tiempoTotal = 0;		
 		for (Atraccion at: atracciones)
 			tiempoTotal += at.getTiempo();		
 		return tiempoTotal;
+	}
+
+	@Override
+	protected boolean venderProducto() {
+		for (Atraccion atr: this.atracciones)
+			if (!atr.restarCupo())
+				return false;
+		return true; 
 	}	
 	
-	
+		
 	
 }
