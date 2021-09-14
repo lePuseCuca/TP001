@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
 public class SecretariaTurismo {
 
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -47,7 +46,7 @@ public class SecretariaTurismo {
 			presupuestoCliente = usr.getPresupuesto();
 			tiempoCliente = usr.getTiempo();
 			sugerenciasParaUsuario = getProductosParaUsuario(usr);
-			itinerario  = new ArrayList<Producto>();
+			itinerario = new ArrayList<Producto>();
 
 			for (Producto sugerencia : sugerenciasParaUsuario) {
 
@@ -59,18 +58,20 @@ public class SecretariaTurismo {
 							+ " y dispones de " + tiempoCliente + "hs.");
 					System.out.println("Deseas adquirir: ");
 					System.out.println(sugerencia + "Presiona S o N.");
-					respuesta = sc.next().charAt(0);
-					if (respuesta == 's') {
-						if (sugerencia.venderProducto()) {
-							itinerario.add(sugerencia);
-							presupuestoCliente -= sugerencia.getCosto();
-							tiempoCliente -= sugerencia.getTiempo();
+					
+					do{
+						respuesta = sc.next().charAt(0);
+						if (respuesta == 'n')
+							continue;
+						if (respuesta == 's') {
+							if (sugerencia.venderProducto()) {
+								itinerario.add(sugerencia);
+								presupuestoCliente -= sugerencia.getCosto();
+								tiempoCliente -= sugerencia.getTiempo();
+							}
 						}
-
-					}
-
+					}while(respuesta!='s' && respuesta!='n');
 				}
-
 			}
 			mostrarItinerario(itinerario, usr);
 			guardarItinerario(itinerario, usr);
