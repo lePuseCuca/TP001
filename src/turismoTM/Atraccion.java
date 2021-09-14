@@ -21,7 +21,7 @@ public class Atraccion extends Producto {
 	
 	@Override
 	public String toString() {
-		return String.format("%-30s $%.0f \t %s hs. %n",nombre + " [" + tipo.getDescripcion() + "]", costo, tiempo);
+		return String.format("%-30s $%.0f \t %s hs. %n",nombre + " [" + tipo.getDescripcion() + "]", costo, tiempo);		
 	}
 	
 	public boolean restarCupo() {

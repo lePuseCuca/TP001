@@ -16,7 +16,12 @@ public class PromocionAxB extends Promocion {
 	}
 	
 	public String toString() {
-		return this.getNombre();
+		String detalle = String.format("%-32s %n",nombre);
+		for (Atraccion atr: atracciones)
+			detalle += "+" + atr; 
+		detalle += String.format("+%-30s $%.0f \t %s hs. %n",atraccionSinCargo.getNombre() + " (SIN CARGO)", atraccionSinCargo.getCosto(), atraccionSinCargo.getTiempo());
+		detalle += String.format("%30s \t$%.0f \t %s hs. %n", ">Subtotal:", this.getCosto(), tiempo);
+		return detalle + "\n";
 	}	
 
 }

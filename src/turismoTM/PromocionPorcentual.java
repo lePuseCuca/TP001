@@ -22,7 +22,11 @@ public class PromocionPorcentual extends Promocion {
 
 	@Override
 	public String toString() {
-		return this.nombre;
+		String detalle = String.format("%-30s %n",nombre);
+		for (Atraccion atr: atracciones)
+			detalle += "+" + atr; 
+		detalle += String.format("%30s \t$%.0f \t %s hs. %n", ">Subtotal (-" + String.format("%.0f", descuento) + "%):", this.getCosto(), tiempo);
+		return detalle + "\n";
 	}
 	
 	@Override

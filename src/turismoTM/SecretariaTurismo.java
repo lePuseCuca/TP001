@@ -38,7 +38,7 @@ public class SecretariaTurismo {
 	public void sugerirProductos() throws IOException {
 		double presupuestoCliente;
 		double tiempoCliente;
-		List<Producto> itinerario = new ArrayList<Producto>();
+		List<Producto> itinerario;
 		List<Producto> sugerenciasParaUsuario = new ArrayList<Producto>();
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
@@ -47,6 +47,7 @@ public class SecretariaTurismo {
 			presupuestoCliente = usr.getPresupuesto();
 			tiempoCliente = usr.getTiempo();
 			sugerenciasParaUsuario = getProductosParaUsuario(usr);
+			itinerario  = new ArrayList<Producto>();
 
 			for (Producto sugerencia : sugerenciasParaUsuario) {
 
@@ -121,10 +122,8 @@ public class SecretariaTurismo {
 	}
 
 	private void guardarItinerario(List<Producto> itinerario, Usuario usr) throws FileNotFoundException {
-		System.out.println("Entre");
 		PrintWriter salida;
 		salida = new PrintWriter(usr.getNombre() + ".out");
-		System.out.println(salida.toString());
 		salida.println("Itinerario para " + usr.getNombre());
 		for (Producto prd : itinerario)
 			salida.println(prd);
