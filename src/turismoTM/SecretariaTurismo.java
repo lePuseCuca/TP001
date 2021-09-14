@@ -48,6 +48,7 @@ public class SecretariaTurismo {
 			sugerenciasParaUsuario = getProductosParaUsuario(usr);
 			itinerario = new ArrayList<Producto>();
 
+			//Pasar a while con iterator y preguntar si tiene plata y tiempo y despues hasNext() 
 			for (Producto sugerencia : sugerenciasParaUsuario) {
 
 				if (!atraccionComprada(sugerencia, itinerario)
@@ -57,9 +58,10 @@ public class SecretariaTurismo {
 					System.out.println(usr.getNombre() + " tu presupuesto es de: $" + presupuestoCliente
 							+ " y dispones de " + tiempoCliente + "hs.");
 					System.out.println("Deseas adquirir: ");
-					System.out.println(sugerencia + "Presiona S o N.");
+					System.out.println(sugerencia);
 					
 					do{
+						System.out.println("Presiona S o N.");
 						respuesta = sc.next().charAt(0);
 						if (respuesta == 'n')
 							continue;
@@ -74,6 +76,7 @@ public class SecretariaTurismo {
 				}
 			}
 			mostrarItinerario(itinerario, usr);
+			usr.comprarItinerario(calcularCostoItinerario(itinerario));
 			guardarItinerario(itinerario, usr);
 		}
 

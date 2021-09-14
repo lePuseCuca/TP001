@@ -30,6 +30,11 @@ public class Usuario {
 	}
 	
 	public boolean comprarItinerario(double costoItinerario) {
+		if (costoItinerario <= this.monedas) {
+			this.monedas -= costoItinerario;
+			return true;
+		}
+		
 		return false;
 	}
 }
