@@ -52,10 +52,15 @@ public class Promocion extends Producto{
 
 	@Override
 	protected boolean venderProducto() {
+		boolean vendible = true;
 		for (Atraccion atr: this.atracciones)
-			if (!atr.restarCupo())
-				return false;
-		return true; 
+			if (atr.getCupo() == 0)
+				vendible = false;
+		if (vendible)
+			for (Atraccion atr: this.atracciones)
+				atr.restarCupo();
+		
+		return vendible;
 	}	
 	
 		

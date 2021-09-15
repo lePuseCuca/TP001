@@ -31,5 +31,18 @@ public class PromocionAxB extends Promocion {
 		temp.add(this.atraccionSinCargo);
 		return temp;
 	}
+	
+	@Override
+	public boolean venderProducto() {
+//		boolean vendido = true;
+//		for (Atraccion atr: this.atracciones)
+//			if (!atr.restarCupo())
+//				vendido = false;
+//		if(!this.atraccionSinCargo.restarCupo())
+//			vendido = false;
+//		
+//		return vendido;
+		return (super.venderProducto() && this.atraccionSinCargo.restarCupo());
+	}
 
 }
