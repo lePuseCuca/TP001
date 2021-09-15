@@ -1,7 +1,6 @@
 package turismoTM;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +34,10 @@ public class SecretariaTurismo {
 	}
 
 	// Metodo para sugerir productos
-	public void sugerirProductos() throws IOException {
+	public void sugerirProductos(){
 		double presupuestoCliente;
 		double tiempoCliente;
 		List<Producto> itinerario;
-		//List<Producto> sugerenciasParaUsuario = new ArrayList<Producto>();
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
 
@@ -77,7 +75,11 @@ public class SecretariaTurismo {
 			}
 			mostrarItinerario(itinerario, usr);
 			usr.comprarItinerario(calcularCostoItinerario(itinerario));
-			guardarItinerario(itinerario, usr);
+			try {
+				guardarItinerario(itinerario, usr);
+			} catch (FileNotFoundException e) {
+				System.err.print("El archivo no se guardo correctamente");
+			}
 		}
 
 		sc.close();
@@ -135,7 +137,7 @@ public class SecretariaTurismo {
 		salida.println("Itinerario para " + usr.getNombre());
 		for (Producto prd : itinerario)
 			salida.println(prd);
-		salida.println("_________________________________________________");
+		salida.println("________________________________________________________");
 		salida.println("COSTO TOTAL: $" + calcularCostoItinerario(itinerario) + " - Tiempo necesario: "
 				+ calcularTiempoItinerario(itinerario) + " hs.");
 		salida.close();
@@ -144,13 +146,13 @@ public class SecretariaTurismo {
 
 	public void mostrarItinerario(List<Producto> itinerario, Usuario usr) {
 
-		System.out.println("_________________________________________________");
+		System.out.println("________________________________________________________");
 		System.out.println("Itinerario para " + usr.getNombre());
 		for (Producto prd : itinerario)
 			System.out.print(prd);
 		System.out.println("COSTO TOTAL: $" + calcularCostoItinerario(itinerario) + " - Tiempo necesario: "
 				+ calcularTiempoItinerario(itinerario) + " hs.");
-		System.out.println("_________________________________________________");
+		System.out.println("________________________________________________________");
 
 	}
 

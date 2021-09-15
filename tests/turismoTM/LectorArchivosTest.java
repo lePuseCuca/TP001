@@ -31,7 +31,6 @@ public class LectorArchivosTest {
 	
 	@Test
 	public void queCargaAtracciones() {
-		
 		assertTrue(atracciones.size() > 0);
 	}
 	

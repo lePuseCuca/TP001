@@ -41,6 +41,15 @@ public abstract class Producto {
 	protected abstract List<Atraccion> getAtracciones();
 	
 	protected abstract boolean venderProducto();
+	
+	protected boolean validarDatoNumerico(double dato) {
+		return (dato > 0);
+	}
+	
+	protected boolean validarDatoNumerico(int dato) {
+		return (dato > 0);
+	}
+	
 		
 	@Override
 	public int hashCode() {

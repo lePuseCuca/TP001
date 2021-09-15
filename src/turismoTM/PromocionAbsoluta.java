@@ -5,9 +5,12 @@ import java.util.List;
 public class PromocionAbsoluta extends Promocion{
 	public PromocionAbsoluta() {}
 	
-	public PromocionAbsoluta(String nombre, TipoPromocion tipoPromo, List<Atraccion> atracciones, Tipo tipo, double costo) {
+	public PromocionAbsoluta(String nombre, TipoPromocion tipoPromo, List<Atraccion> atracciones, Tipo tipo, double costo) throws ErrorDatosException {
 		super(nombre, tipoPromo, atracciones, tipo);
-		this.costo = costo;		
+		if(validarDatoNumerico(costo))
+			this.costo = costo;
+		else
+			throw new ErrorDatosException("Datos con valor negativo");
 	}
 	
 	@Override

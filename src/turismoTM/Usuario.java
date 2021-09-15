@@ -6,11 +6,18 @@ public class Usuario {
 	private double tiempo;
 	private Tipo tipoPreferido;
 	
-	public Usuario(String nombre, double monedas, double tiempo, Tipo tipoPreferido) {
-		this.nombre = nombre;
-		this.monedas = monedas;
-		this.tiempo = tiempo;
-		this.tipoPreferido = tipoPreferido;
+	public Usuario() {}
+	
+	public Usuario(String nombre, double monedas, double tiempo, Tipo tipoPreferido) throws ErrorDatosException {
+		
+		if (validarDato(monedas) && validarDato(tiempo)){
+			this.nombre = nombre;
+			this.monedas = monedas;
+			this.tiempo = tiempo;
+			this.tipoPreferido = tipoPreferido;
+		}else
+			throw new ErrorDatosException("Datos con valor negativo");
+		
 	}
 	
 	public String getNombre() {
@@ -36,5 +43,9 @@ public class Usuario {
 		}
 		
 		return false;
+	}
+	
+	private boolean validarDato(double dato) {
+		return (dato > 0);
 	}
 }
