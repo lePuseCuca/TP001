@@ -34,7 +34,7 @@ public class SecretariaTurismo {
 	}
 
 	// Metodo para sugerir productos
-	public void sugerirProductos(){
+	public void sugerirProductos() {
 		double presupuestoCliente;
 		double tiempoCliente;
 		List<Producto> itinerario;
@@ -47,18 +47,17 @@ public class SecretariaTurismo {
 			itinerario = new ArrayList<Producto>();
 			Iterator<Producto> itr = getProductosParaUsuario(usr).iterator();
 
-			 
 			while ((presupuestoCliente > 0 && tiempoCliente > 0) && itr.hasNext()) {
 				Producto sugerencia = itr.next();
 				if (!atraccionComprada(sugerencia, itinerario)
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
-					
+
 					System.out.println(usr.getNombre() + " tu presupuesto es de: $" + presupuestoCliente
 							+ " y dispones de " + tiempoCliente + "hs.");
 					System.out.println("Deseas adquirir:");
 					System.out.println(sugerencia);
-					
-					do{
+
+					do {
 						System.out.println("Presiona S o N.");
 						respuesta = sc.next().charAt(0);
 						if (respuesta == 'n' || respuesta == 'N')
@@ -70,15 +69,21 @@ public class SecretariaTurismo {
 								tiempoCliente -= sugerencia.getTiempo();
 							}
 						}
-					}while(respuesta!='s' && respuesta!='S' && respuesta!='N' && respuesta!='n');
+					} while (respuesta != 's' && respuesta != 'S' && respuesta != 'N' && respuesta != 'n');
 				}
 			}
-			mostrarItinerario(itinerario, usr);
-			usr.comprarItinerario(calcularCostoItinerario(itinerario));
-			try {
-				guardarItinerario(itinerario, usr);
-			} catch (FileNotFoundException e) {
-				System.err.print("El archivo no se guardo correctamente");
+			if (itinerario.size() > 0) {
+				mostrarItinerario(itinerario, usr);
+				usr.comprarItinerario(calcularCostoItinerario(itinerario));
+				try {
+					guardarItinerario(itinerario, usr);
+				} catch (FileNotFoundException e) {
+					System.err.print("El archivo no se guardo correctamente");
+				}
+			}else {
+				System.out.println("___________________________________________");
+				System.out.println(usr.getNombre() + ", tu itinerario esta vacio.");
+				System.out.println("___________________________________________");
 			}
 		}
 
@@ -97,20 +102,20 @@ public class SecretariaTurismo {
 	// Metodo que dado un usuario genera los comparadores y ordena lista de
 	// productos en base a su preferencia.
 	private List<Producto> getProductosParaUsuario(Usuario usr) {
-		List<Producto> resultado = this.productos;		
+		List<Producto> resultado = this.productos;
 		Collections.sort(resultado, generarComparadorProducto(usr.getTipoPreferido()));
 
 		return resultado;
 	}
-	
-	private ComparadorProducto generarComparadorProducto (Tipo tipoPreferido) {
+
+	private ComparadorProducto generarComparadorProducto(Tipo tipoPreferido) {
 		List<Comparator<Producto>> comparadores = new ArrayList<Comparator<Producto>>();
 		comparadores.add(new ComparadorTipoPreferido(tipoPreferido));
 		comparadores.add(new ComparadorClase());
 		comparadores.add(new ComparadorCosto());
 		comparadores.add(new ComparadorTiempo());
-		
-		return (new ComparadorProducto(comparadores));				 
+
+		return (new ComparadorProducto(comparadores));
 	}
 
 	private boolean atraccionComprada(Producto p, List<Producto> itinerario) {
