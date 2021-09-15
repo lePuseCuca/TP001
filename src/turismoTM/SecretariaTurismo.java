@@ -61,16 +61,16 @@ public class SecretariaTurismo {
 					do{
 						System.out.println("Presiona S o N.");
 						respuesta = sc.next().charAt(0);
-						if (respuesta == 'n')
+						if (respuesta == 'n' || respuesta == 'N')
 							continue;
-						if (respuesta == 's') {
+						if (respuesta == 's' || respuesta == 'S') {
 							if (sugerencia.venderProducto()) {
 								itinerario.add(sugerencia);
 								presupuestoCliente -= sugerencia.getCosto();
 								tiempoCliente -= sugerencia.getTiempo();
 							}
 						}
-					}while(respuesta!='s' && respuesta!='n');
+					}while(respuesta!='s' && respuesta!='S' && respuesta!='N' && respuesta!='n');
 				}
 			}
 			mostrarItinerario(itinerario, usr);
