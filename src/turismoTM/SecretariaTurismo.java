@@ -72,19 +72,15 @@ public class SecretariaTurismo {
 					} while (respuesta != 's' && respuesta != 'S' && respuesta != 'N' && respuesta != 'n');
 				}
 			}
-			if (itinerario.size() > 0) {
-				mostrarItinerario(itinerario, usr);
-				usr.comprarItinerario(calcularCostoItinerario(itinerario));
-				try {
-					guardarItinerario(itinerario, usr);
-				} catch (FileNotFoundException e) {
-					System.err.print("El archivo no se guardo correctamente");
-				}
-			}else {
-				System.out.println("___________________________________________");
-				System.out.println(usr.getNombre() + ", tu itinerario esta vacio.");
-				System.out.println("___________________________________________");
+
+			mostrarItinerario(itinerario, usr);
+			usr.comprarItinerario(calcularCostoItinerario(itinerario));
+			try {
+				guardarItinerario(itinerario, usr);
+			} catch (FileNotFoundException e) {
+				System.err.print("El archivo no se guardo correctamente");
 			}
+
 		}
 
 		sc.close();
@@ -139,25 +135,40 @@ public class SecretariaTurismo {
 	private void guardarItinerario(List<Producto> itinerario, Usuario usr) throws FileNotFoundException {
 		PrintWriter salida;
 		salida = new PrintWriter(usr.getNombre() + ".out");
-		salida.println("Itinerario para " + usr.getNombre());
-		for (Producto prd : itinerario)
-			salida.println(prd);
-		salida.println("________________________________________________________");
-		salida.println("COSTO TOTAL: $" + calcularCostoItinerario(itinerario) + " - Tiempo necesario: "
-				+ calcularTiempoItinerario(itinerario) + " hs.");
+
+		if (itinerario.size() > 0) {
+			
+			salida.println("Itinerario para " + usr.getNombre());
+			for (Producto prd : itinerario)
+				salida.println(prd);
+			salida.println("________________________________________________________");
+			salida.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario(itinerario)) + " - Tiempo necesario: "
+					+ calcularTiempoItinerario(itinerario) + " hs.");
+		} else {
+			salida.println("___________________________________________");
+			salida.println(usr.getNombre() + ", tu itinerario esta vacio.");
+			salida.println("___________________________________________");
+		}
+		
 		salida.close();
 
 	}
 
 	public void mostrarItinerario(List<Producto> itinerario, Usuario usr) {
 
-		System.out.println("________________________________________________________");
-		System.out.println("Itinerario para " + usr.getNombre());
-		for (Producto prd : itinerario)
-			System.out.print(prd);
-		System.out.println("COSTO TOTAL: $" + calcularCostoItinerario(itinerario) + " - Tiempo necesario: "
-				+ calcularTiempoItinerario(itinerario) + " hs.");
-		System.out.println("________________________________________________________");
+		if (itinerario.size() > 0) {
+			System.out.println("________________________________________________________");
+			System.out.println("Itinerario para " + usr.getNombre());
+			for (Producto prd : itinerario)
+				System.out.print(prd);
+			System.out.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario(itinerario)) + " - Tiempo necesario: "
+					+ calcularTiempoItinerario(itinerario) + " hs.");
+			System.out.println("________________________________________________________");
+		} else {
+			System.out.println("___________________________________________");
+			System.out.println(usr.getNombre() + ", tu itinerario esta vacio.");
+			System.out.println("___________________________________________");
+		}
 
 	}
 
