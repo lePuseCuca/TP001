@@ -52,8 +52,8 @@ public class SecretariaTurismo {
 				if (!atraccionComprada(sugerencia, itinerario)
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
 
-					System.out.println(usr.getNombre() + " tu presupuesto es de: $" + presupuestoCliente
-							+ " y dispones de " + tiempoCliente + "hs.");
+					System.out.println(usr.getNombre() + ",\ntu presupuesto actual es de: $" + String.format("%.0f", presupuestoCliente)
+							+ " y dispones de " + tiempoCliente + " hs.\n");
 					System.out.println("Deseas adquirir:");
 					System.out.println(sugerencia);
 
