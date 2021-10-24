@@ -29,7 +29,7 @@ public class AtraccionesDAOTest {
 	}
 
 	@After
-	public static void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		conn.rollback();
 	}
 
@@ -37,8 +37,8 @@ public class AtraccionesDAOTest {
 	public void queCuentaLasAtracciones() throws ErrorDatosException {
 		AtraccionesDAO atrDAO = DAOFactory.getAtraccionesDAO();
 
-		int numeroDeAtraccionesEsperado = atrDAO.countAll();
-		int numeroDeAtracciones = 8;
+		int numeroDeAtracciones = atrDAO.countAll();
+		int numeroDeAtraccionesEsperado = 8;
 		assertEquals(numeroDeAtraccionesEsperado, numeroDeAtracciones, 0);
 	}
 
@@ -47,9 +47,9 @@ public class AtraccionesDAOTest {
 		Atraccion atr = new Atraccion("Prueba", 10, 20, 30, Tipo.AVENTURA);
 		AtraccionesDAO atrDAO = DAOFactory.getAtraccionesDAO();
 
-		int numeroDeAtraccionesEsperado = atrDAO.countAll();
+		int numeroDeAtraccionesInicial = atrDAO.countAll();
 		atrDAO.insert(atr);
-		assertEquals(numeroDeAtraccionesEsperado, atrDAO.countAll(), 0);
+		assertEquals(numeroDeAtraccionesInicial + 1, atrDAO.countAll(), 0);
 	}
 	
 	@Test
@@ -60,11 +60,11 @@ public class AtraccionesDAOTest {
 		atrDAO.insert(atr);
 		Atraccion atrDB = atrDAO.findAtraccionByNombre("Prueba");
 	
-		assertEquals(atrDB.getNombre(), "Prueba");
-		assertEquals(atrDB.getCosto(), 10, 0);
-		assertEquals(atrDB.getTiempo(), 20, 0);
-		assertEquals(atrDB.getCupo(), 30);
-		assertEquals(atrDB.getTipo(), Tipo.AVENTURA);
+		assertEquals("Prueba", atrDB.getNombre());
+		assertEquals(10, atrDB.getCosto(), 0);
+		assertEquals(20, atrDB.getTiempo(), 0);
+		assertEquals(30, atrDB.getCupo());
+		assertEquals(Tipo.AVENTURA, atrDB.getTipo());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class AtraccionesDAOTest {
 		int cupoInicial = 30;
 		int cupoFinal = cupoInicial - 1;
 		Atraccion atrDB = atrDAO.findAtraccionByNombre("Prueba");
-		assertEquals(atrDB.getCupo(), cupoFinal);
+		assertEquals(cupoFinal, atrDB.getCupo());
 	}
 	
 	@Test
