@@ -129,7 +129,7 @@ public class AtraccionesDAOImpl implements AtraccionesDAO {
 							 resultados.getDouble(3),
 							 resultados.getDouble(2),
 							 resultados.getInt(4),
-							 (Tipo) resultados.getObject(5));
+							 Tipo.valueOf(resultados.getString(5)));
 	}
 	
 }
