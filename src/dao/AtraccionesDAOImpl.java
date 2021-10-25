@@ -1,7 +1,8 @@
 package dao;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,16 +15,15 @@ import turismoTM.Tipo;
 public class AtraccionesDAOImpl implements AtraccionesDAO {
 
 	@Override
-	public List<Atraccion> findAll() {
+	public Map<String, Atraccion> findAllAtracciones() {
 		try {
 			String sql = "SELECT * FROM ATRACCIONES";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
-
-			List<Atraccion> atracciones = new LinkedList<Atraccion>();
+			Map<String, Atraccion> atracciones = new HashMap<String, Atraccion>();
 			while (resultados.next()) {
-				atracciones.add(toAtraccion(resultados));
+				atracciones.put(resultados.getString("nombre"),toAtraccion(resultados));
 			}
 
 			return atracciones;
@@ -125,11 +125,17 @@ public class AtraccionesDAOImpl implements AtraccionesDAO {
 	}
 	
 	private Atraccion toAtraccion(ResultSet resultados) throws SQLException, ErrorDatosException {
-		return new Atraccion(resultados.getString(1), 
-							 resultados.getDouble(3),
-							 resultados.getDouble(2),
-							 resultados.getInt(4),
-							 Tipo.valueOf(resultados.getString(5)));
+		return new Atraccion(resultados.getString("nombre"), 
+							 resultados.getDouble("costo"),
+							 resultados.getDouble("tiempo"),
+							 resultados.getInt("cupo"),
+							 Tipo.valueOf(resultados.getString("tipo")));
+	}
+
+	@Override
+	public List<Atraccion> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

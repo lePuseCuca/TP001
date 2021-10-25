@@ -97,7 +97,7 @@ public class AtraccionesDAOTest {
 	@Test
 	public void queDevuelveTodasLasAtracciones() throws ErrorDatosException {
 		AtraccionesDAO atrDAO = DAOFactory.getAtraccionesDAO();
-		assertEquals(atrDAO.findAll().size(), atrDAO.countAll());
+		assertEquals(atrDAO.findAllAtracciones().size(), atrDAO.countAll());
 	}
 
 }
