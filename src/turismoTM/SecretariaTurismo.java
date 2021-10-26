@@ -77,6 +77,7 @@ public class SecretariaTurismo {
 			usr.comprarItinerario(calcularCostoItinerario(itinerario));
 			try {
 				guardarItinerario(itinerario, usr);
+				//itinerario.guardar()
 			} catch (FileNotFoundException e) {
 				System.err.print("El archivo no se guardo correctamente");
 			}

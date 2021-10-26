@@ -6,7 +6,7 @@ public class DAOFactory {
 		return new UsuarioDAOImpl();
 	}
 	
-	public static ItinerarioDAO getItinerarioDAO() {
+	public static ItinerarioDAOImpl getItinerarioDAO() {
 		return new ItinerarioDAOImpl();
 	}
 

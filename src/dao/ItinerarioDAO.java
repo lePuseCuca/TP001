@@ -1,11 +1,12 @@
 package dao;
 
-import java.util.List;
+import java.util.Map;
 
+import turismoTM.Itinerario;
 import turismoTM.Producto;
 
-public interface ItinerarioDAO extends GenericDAO<Producto> {
+public interface ItinerarioDAO extends GenericDAO<Itinerario> {
 	
-	public abstract List<Producto> findItinerarioByUserID (String UserID);
+	public abstract Itinerario findItinerarioByUsuario (String idUsuario, Map<String, Producto> productos);	
 	
 }
