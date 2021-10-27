@@ -39,7 +39,7 @@ public class PromocionDAOImplTest {
 	
 	@Test
 	public void findAllTest() {
-		
+		//usar size() + countAll()
 		PromocionDAO promocionDAO = new PromocionDAOImpl();
 		
 		List<Promocion> promociones = promocionDAO.findAll(atracciones);

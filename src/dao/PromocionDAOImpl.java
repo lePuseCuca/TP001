@@ -29,7 +29,8 @@ public class PromocionDAOImpl implements PromocionDAO {
 	public int insert(Promocion promo) {
 		return 0;
 	}
-
+	
+	
 	@Override
 	public int update(Promocion promo) {
 		return 0;
@@ -66,7 +67,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 	private Promocion toPromocion(ResultSet resultados, Map<String, Atraccion> atracciones) throws SQLException {
 		Promocion promoNueva = null;
 		
-		List<String> atraccionesPromo = findAtracionesPromo(resultados.getString(1));
+		List<String> atraccionesPromo = findAtracionesPromo(resultados.getString("nombre"));
 		List<Atraccion> tempAt = new ArrayList<Atraccion>();
 		
 		boolean atraccionInexistente = false;
@@ -77,16 +78,17 @@ public class PromocionDAOImpl implements PromocionDAO {
 			else
 				atraccionInexistente = true; //Ojo que si alguna atracción no existe no se carga nada
 		
-		switch (resultados.getString(2)) {
+		String tipoPromo = resultados.getString("tipo_promocion");
+		switch (tipoPromo) {
 		case "PORCENTUAL":
 			if(!atraccionInexistente) {
 				try {
 					promoNueva = new PromocionPorcentual(
-							resultados.getString(1), 
-							TipoPromocion.valueOf(resultados.getString(2)), 
+							resultados.getString("nombre"), 
+							TipoPromocion.valueOf(tipoPromo), 
 							tempAt,
-							Tipo.valueOf(resultados.getString(3)),
-							Double.parseDouble(resultados.getString(4)));
+							Tipo.valueOf(resultados.getString("tipo_atracciones")),
+							Double.parseDouble(resultados.getString("descuento"))); //Probar getDouble()
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (ErrorDatosException e) {
@@ -127,18 +129,18 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 	private List<String> findAtracionesPromo(String nombre) {
 		try {
-			String sql = "SELECT * \n"
+			String sql = "SELECT id_atraccion \n"
 					+ "FROM promocion_atracciones\n"
 					+ "WHERE id_promocion = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(1, nombre);;
+			statement.setString(1, nombre);
 			ResultSet resultados = statement.executeQuery();
 
 			List<String> atraccionesPromo = new LinkedList<String>();
 			
 			while (resultados.next()) {
-				atraccionesPromo.add(resultados.getString(2));
+				atraccionesPromo.add(resultados.getString("id_atraccion"));
 			}
 			return atraccionesPromo;
 		} catch (Exception e) {
