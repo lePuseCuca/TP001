@@ -16,7 +16,7 @@ public abstract class Producto {
 		this.tipo = tipo;
 	}
 
-	protected Double getTiempo() {
+	public Double getTiempo() {
 		return this.tiempo;
 	}
 	

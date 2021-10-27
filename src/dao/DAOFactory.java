@@ -14,4 +14,7 @@ public class DAOFactory {
 		return new PromocionDAOImpl();
 	}
 
+	public static AtraccionesDAO getAtraccionesDAO() {
+		return new AtraccionesDAOImpl();
+	}
 }
