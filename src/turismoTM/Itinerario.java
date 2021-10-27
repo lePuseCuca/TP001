@@ -8,8 +8,8 @@ public class Itinerario {
 	private List<Producto> productos;
 	private boolean nuevoItinerario = true;
 	private List<String> nuevosProductos;
-	// List<string> losnuevos;
-	// Controlar nuevos aca.
+	// COBRAR SOLO LOS NUEVOS!!!
+	
 	
 	public Itinerario (String idUsuario) {
 		this.idUsuario = idUsuario;

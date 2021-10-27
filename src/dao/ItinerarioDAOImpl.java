@@ -29,25 +29,18 @@ public class ItinerarioDAOImpl implements ItinerarioDAO{
 
 	public Itinerario findItinerarioByUsuario(String idUsuario, Map<String, Producto> productos) {
 		try {
-			conn = ConnectionProvider.getConnection();
-			Itinerario itinerario = new Itinerario(idUsuario);
+			//conn = ConnectionProvider.getConnection();
+			Itinerario itinerario = null;
 			String sql = "SELECT id_usuario, id_producto FROM itinerarios WHERE id_usuario = ?;";
 			PreparedStatement statement = this.conn.prepareStatement(sql);
 			statement.setString(1, idUsuario);
 			
 			ResultSet resultados = statement.executeQuery();
 			
-			// Validar si existe producto
-		
+			// Validar si existe producto		
 			
-		
-		
-			
-			while(resultados.next()) {
-				itinerario.addProducto(productos.get(resultados.getString("id_producto")));
-			}
-			
-			itinerario.setNuevoItinerario(itinerario.getTotalProductos() == 0);
+			if (resultados.next())
+				itinerario = toItinerario(resultados, productos);
 			
 			return itinerario;
 		} catch (Exception e) {
@@ -105,7 +98,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO{
 			PreparedStatement statement = this.conn.prepareStatement(sql);
 			
 			for (String nombreProd : it.getNuevosProductos()) {
-				System.out.println(nombreProd);
 				statement.setString(1, it.getNombreUsuario());
 				statement.setString(2, nombreProd);
 				totalInsertado += statement.executeUpdate();
@@ -126,11 +118,22 @@ public class ItinerarioDAOImpl implements ItinerarioDAO{
 	}
 	
 	@SuppressWarnings("unused")
-	private Itinerario toItinerario (ResultSet resultados) {
+	private Itinerario toItinerario (ResultSet resultados, Map<String, Producto> productos) {
 		
-		return null;		
+		try {
+			Itinerario itinerario = new Itinerario (resultados.getString("id_usuario"));
+			do {
+				itinerario.addProducto(productos.get(resultados.getString("id_producto")));
+			}while(resultados.next());
+			
+			itinerario.setNuevoItinerario(itinerario.getTotalProductos() == 0);
+			
+			return itinerario;
+			
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+			
 	}
-
-
 
 }

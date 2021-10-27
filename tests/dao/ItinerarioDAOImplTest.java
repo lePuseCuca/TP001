@@ -51,9 +51,10 @@ public class ItinerarioDAOImplTest {
 		try{
 			 
 			Itinerario itinerarioUsuarioA = gestorItinerario.findItinerarioByUsuario("Gandalf", this.productos);
-			Itinerario itinerarioUsuarioB = gestorItinerario.findItinerarioByUsuario("Gollum", this.productos);
+			//Si el usuario no tiene itinerario devuelve null
+			Itinerario itinerarioUsuarioB = gestorItinerario.findItinerarioByUsuario("Dumbledore", this.productos);
 			assertEquals(3, itinerarioUsuarioA.getTotalProductos(), 0);
-			assertEquals(0, itinerarioUsuarioB.getTotalProductos(), 0);
+			assertTrue(itinerarioUsuarioB == null);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}		
