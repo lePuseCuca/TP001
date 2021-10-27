@@ -16,6 +16,8 @@ public enum Tipo {
 			return this.descripcion;
 		}
 		
+		
+		
 	
 	
 }
