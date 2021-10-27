@@ -22,6 +22,9 @@ public class SecretariaTurismo {
 		this.usuarios = LectorArchivos.leerUsuarios("usuarios.in");
 		atracciones = LectorArchivos.cargarAtracciones("atracciones.in");
 		promociones = LectorArchivos.cargarPromociones("promociones.in", atracciones);
+		
+		//PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		// promociones = promocionDAO.finAll(atracciones);
 		setProductos();
 	}
 
