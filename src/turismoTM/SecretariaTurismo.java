@@ -7,24 +7,32 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import dao.AtraccionesDAO;
+import dao.DAOFactory;
+import dao.ItinerarioDAO;
+import dao.PromocionDAO;
+import dao.UsuarioDAO;
 
 public class SecretariaTurismo {
 
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 	private Map<String, Atraccion> atracciones = new HashMap<String, Atraccion>();
-	private List<Promocion> promociones = new ArrayList<Promocion>();
-	private List<Producto> productos = new ArrayList<Producto>();
+	private List<Promocion> promociones = new LinkedList<Promocion>();
+	private Map<String, Producto> productos = new HashMap<String, Producto>();
+	private UsuarioDAO gestorUsuarios = DAOFactory.getUsuarioDAO();
+	private AtraccionesDAO gestorAtracciones = DAOFactory.getAtraccionesDAO();
+	private PromocionDAO gestorPromociones = DAOFactory.getPromocionDAO();
+	private ItinerarioDAO gestorItinerarios = DAOFactory.getItinerarioDAO();
 
 	public SecretariaTurismo() {
-		this.usuarios = LectorArchivos.leerUsuarios("usuarios.in");
-		atracciones = LectorArchivos.cargarAtracciones("atracciones.in");
-		promociones = LectorArchivos.cargarPromociones("promociones.in", atracciones);
-		
-		//PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		// promociones = promocionDAO.finAll(atracciones);
+		this.usuarios = gestorUsuarios.findAll();
+		atracciones = gestorAtracciones.findAllAtracciones();
+		promociones = gestorPromociones.findAll(atracciones);
 		setProductos();
 	}
 
@@ -32,7 +40,7 @@ public class SecretariaTurismo {
 		return this.usuarios;
 	}
 
-	public List<Producto> getProductos() {
+	public Map<String, Producto> getProductos() {
 		return this.productos;
 	}
 
@@ -40,14 +48,20 @@ public class SecretariaTurismo {
 	public void sugerirProductos() {
 		double presupuestoCliente;
 		double tiempoCliente;
+		
 		List<Producto> itinerario;
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
 
 		for (Usuario usr : usuarios) {
+			//Itinerario
+			Itinerario itinerario = 
+					(gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos) == null) ?
+					new Itinerario(usr.getNombre()) :
+					gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos);
 			presupuestoCliente = usr.getPresupuesto();
 			tiempoCliente = usr.getTiempo();
-			itinerario = new ArrayList<Producto>();
+			
 			Iterator<Producto> itr = getProductosParaUsuario(usr).iterator();
 
 			while ((presupuestoCliente > 0 && tiempoCliente > 0) && itr.hasNext()) {
@@ -93,23 +107,22 @@ public class SecretariaTurismo {
 
 	/*---- Metodos privados ----*/
 	private void setProductos() {
+		productos.putAll(atracciones);
 		for (Promocion promo : this.promociones)
-			productos.add(promo);
-		for (String nombre : this.atracciones.keySet())
-			productos.add(this.atracciones.get(nombre));
+			productos.put(promo.getNombre(), promo);
 	}
 
 	// Metodo que dado un usuario genera los comparadores y ordena lista de
 	// productos en base a su preferencia.
 	private List<Producto> getProductosParaUsuario(Usuario usr) {
-		List<Producto> resultado = this.productos;
+		List<Producto> resultado = new LinkedList<Producto>(this.productos.values());
 		Collections.sort(resultado, generarComparadorProducto(usr.getTipoPreferido()));
 
 		return resultado;
 	}
 
 	private ComparadorProducto generarComparadorProducto(Tipo tipoPreferido) {
-		List<Comparator<Producto>> comparadores = new ArrayList<Comparator<Producto>>();
+		List<Comparator<Producto>> comparadores = new LinkedList<Comparator<Producto>>();
 		comparadores.add(new ComparadorTipoPreferido(tipoPreferido));
 		comparadores.add(new ComparadorClase());
 		comparadores.add(new ComparadorCosto());
