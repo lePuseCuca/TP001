@@ -126,7 +126,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO{
 				itinerario.addProducto(productos.get(resultados.getString("id_producto")));
 			}while(resultados.next());
 			
-			itinerario.setNuevoItinerario(itinerario.getTotalProductos() == 0);
+			itinerario.setNuevoItinerario(false);
 			
 			return itinerario;
 			

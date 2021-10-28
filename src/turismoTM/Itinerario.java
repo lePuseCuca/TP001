@@ -1,5 +1,6 @@
 package turismoTM;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +11,14 @@ public class Itinerario {
 	private List<String> nuevosProductos;
 	// COBRAR SOLO LOS NUEVOS!!!
 	
-	
 	public Itinerario (String idUsuario) {
 		this.idUsuario = idUsuario;
 		this.productos = new ArrayList<Producto>();
 		this.nuevosProductos = new ArrayList<String>();
 	}
 	
-	public void setNuevoItinerario(boolean esNuevo) {
-		this.nuevoItinerario = esNuevo;
+	public void setNuevoItinerario() {
+		this.nuevoItinerario = false;
 	}
 	
 	public void addProducto(Producto producto) {
@@ -43,5 +43,29 @@ public class Itinerario {
 		return this.idUsuario;
 	}
 	
+	public boolean getNuevoItinerario() {
+		return this.nuevoItinerario;
+	}
+	
 	
 }
+
+/*
+ * PrintWriter salida;
+		salida = new PrintWriter(usr.getNombre() + ".out");
+
+		if (itinerario.size() > 0) {
+			
+			salida.println("Itinerario para " + usr.getNombre());
+			for (Producto prd : itinerario)
+				salida.println(prd);
+			salida.println("________________________________________________________");
+			salida.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario(itinerario)) + " - Tiempo necesario: "
+					+ calcularTiempoItinerario(itinerario) + " hs.");
+		} else {
+			salida.println("___________________________________________");
+			salida.println(usr.getNombre() + ", tu itinerario esta vacio.");
+			salida.println("___________________________________________");
+		}
+		
+		salida.close();*/
