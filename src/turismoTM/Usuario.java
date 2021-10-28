@@ -42,7 +42,6 @@ public class Usuario {
 			this.tiempo -= tiempoCompra;
 			return true;
 		}
-		
 		return false;
 	}
 	

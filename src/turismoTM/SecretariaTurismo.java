@@ -1,7 +1,5 @@
 package turismoTM;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,14 +50,14 @@ public class SecretariaTurismo {
 		double tiempoCliente;
 		double costoCompra;
 		double tiempoCompra;
-		
-		
+
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
 
 		for (Usuario usr : usuarios) {
 			//Itinerario
 			Itinerario itinerario = gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos);
+
 			if (itinerario == null)  new Itinerario(usr.getNombre());
 					
 			presupuestoCliente = usr.getPresupuesto();
@@ -71,7 +69,7 @@ public class SecretariaTurismo {
 
 			while ((presupuestoCliente > 0 && tiempoCliente > 0) && itr.hasNext()) {
 				Producto sugerencia = itr.next();
-				
+
 				if (!atraccionComprada(sugerencia, itinerario.getProductos())
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
 
@@ -157,12 +155,12 @@ public class SecretariaTurismo {
 		return (presupuesto >= prd.getCosto() && tiempo >= prd.getTiempo() && prd.hayCupo());
 	}
 
-	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {	
-		if (itinerario.getNuevoItinerario()) {
+	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {
+		if(itinerario.getNuevoItinerario())
 			gestorItinerarios.insert(itinerario);
-		} else {
+		else
 			gestorItinerarios.update(itinerario);
-		}
+
 	}
 
 	public void mostrarItinerario(List<Producto> itinerario, Usuario usr) {

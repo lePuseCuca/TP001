@@ -21,6 +21,10 @@ public class Itinerario {
 		this.nuevoItinerario = false;
 	}
 	
+	public boolean getNuevoItinerario() {
+		return this.nuevoItinerario;
+	}
+	
 	public void addProducto(Producto producto) {
 		this.productos.add(producto);
 		if(!nuevoItinerario)
