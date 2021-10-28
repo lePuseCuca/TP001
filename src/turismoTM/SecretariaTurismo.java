@@ -1,7 +1,5 @@
 package turismoTM;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +13,7 @@ import java.util.Scanner;
 import dao.AtraccionesDAO;
 import dao.DAOFactory;
 import dao.ItinerarioDAO;
+import dao.MissingDataException;
 import dao.PromocionDAO;
 import dao.UsuarioDAO;
 
@@ -48,25 +47,28 @@ public class SecretariaTurismo {
 	public void sugerirProductos() {
 		double presupuestoCliente;
 		double tiempoCliente;
-		
-		List<Producto> itinerario;
+		double costoCompra;
+		double tiempoCompra;
+				
 		Scanner sc = new Scanner(System.in);
 		char respuesta;
 
 		for (Usuario usr : usuarios) {
 			//Itinerario
-			Itinerario itinerario = 
-					(gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos) == null) ?
-					new Itinerario(usr.getNombre()) :
-					gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos);
+			Itinerario itinerario = gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), productos);
+			if (itinerario == null) 
+				new Itinerario(usr.getNombre());
+					
 			presupuestoCliente = usr.getPresupuesto();
 			tiempoCliente = usr.getTiempo();
+			costoCompra = 0;
+			tiempoCompra = 0;
 			
 			Iterator<Producto> itr = getProductosParaUsuario(usr).iterator();
 
 			while ((presupuestoCliente > 0 && tiempoCliente > 0) && itr.hasNext()) {
 				Producto sugerencia = itr.next();
-				if (!atraccionComprada(sugerencia, itinerario)
+				if (!atraccionComprada(sugerencia, itinerario.getProductos())
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
 
 					System.out.println(usr.getNombre() + ",\ntu presupuesto actual es de: $" + String.format("%.0f", presupuestoCliente)
@@ -81,22 +83,24 @@ public class SecretariaTurismo {
 							continue;
 						if (respuesta == 's' || respuesta == 'S') {
 							if (sugerencia.venderProducto()) {
-								itinerario.add(sugerencia);
+								itinerario.addProducto(sugerencia);
 								presupuestoCliente -= sugerencia.getCosto();
 								tiempoCliente -= sugerencia.getTiempo();
+								costoCompra += sugerencia.getCosto();
+								tiempoCompra += sugerencia.getTiempo();
 							}
 						}
 					} while (respuesta != 's' && respuesta != 'S' && respuesta != 'N' && respuesta != 'n');
 				}
 			}
 
-			mostrarItinerario(itinerario, usr);
-			usr.comprarItinerario(calcularCostoItinerario(itinerario));
+			mostrarItinerario(itinerario.getProductos(), usr);
+			usr.comprarItinerario(costoCompra, tiempoCompra);
 			try {
-				guardarItinerario(itinerario, usr);
+				guardarItinerario(itinerario);
 				//itinerario.guardar()
-			} catch (FileNotFoundException e) {
-				System.err.print("El archivo no se guardo correctamente");
+			} catch (MissingDataException e) {
+				System.err.print("El itinerario no se guardo correctamente");
 			}
 
 		}
@@ -149,26 +153,11 @@ public class SecretariaTurismo {
 		return (presupuesto >= prd.getCosto() && tiempo >= prd.getTiempo() && prd.hayCupo());
 	}
 
-	private void guardarItinerario(List<Producto> itinerario, Usuario usr) throws FileNotFoundException {
-		PrintWriter salida;
-		salida = new PrintWriter(usr.getNombre() + ".out");
-
-		if (itinerario.size() > 0) {
-			
-			salida.println("Itinerario para " + usr.getNombre());
-			for (Producto prd : itinerario)
-				salida.println(prd);
-			salida.println("________________________________________________________");
-			salida.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario(itinerario)) + " - Tiempo necesario: "
-					+ calcularTiempoItinerario(itinerario) + " hs.");
-		} else {
-			salida.println("___________________________________________");
-			salida.println(usr.getNombre() + ", tu itinerario esta vacio.");
-			salida.println("___________________________________________");
-		}
-		
-		salida.close();
-
+	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {
+		if(itinerario.getNuevoItinerario())
+			gestorItinerarios.insert(itinerario);
+		else
+			gestorItinerarios.update(itinerario);
 	}
 
 	public void mostrarItinerario(List<Producto> itinerario, Usuario usr) {
