@@ -29,9 +29,9 @@ public class SecretariaTurismo {
 	private ItinerarioDAO gestorItinerarios = DAOFactory.getItinerarioDAO();
 
 	public SecretariaTurismo() {
-		this.usuarios = gestorUsuarios.findAll();
-		atracciones = gestorAtracciones.findAllAtracciones();
-		promociones = gestorPromociones.findAll(atracciones);
+		this.usuarios = this.gestorUsuarios.findAll();
+		this.atracciones = this.gestorAtracciones.findAllAtracciones();
+		this.promociones = this.gestorPromociones.findAll(atracciones);
 		setProductos();
 	}
 
@@ -53,7 +53,7 @@ public class SecretariaTurismo {
 		char respuesta;
 
 		for (Usuario usr : this.usuarios) {
-			Itinerario itinerario = gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), this.productos);
+			Itinerario itinerario = this.gestorItinerarios.findItinerarioByUsuario(usr.getNombre(), this.productos);
 			
 			if (itinerario == null) itinerario = new Itinerario(usr.getNombre());
 			
@@ -95,18 +95,19 @@ public class SecretariaTurismo {
 			}
 
 			itinerario.mostrarItinerario();
-			usr.comprarItinerario(costoCompra, tiempoCompra);
-			try {
-				guardarItinerario(itinerario); // itinerario.guardar()
-			} catch (MissingDataException e) {
-				System.err.print("El itinerario no se guardo correctamente");
-			}
+			if (usr.comprarItinerario(costoCompra, tiempoCompra))
+				try {
+					this.gestorUsuarios.update(usr);
+					guardarItinerario(itinerario); // itinerario.guardar()
+				} catch (MissingDataException e) {
+					System.err.print("El itinerario no se guardo correctamente");
+				}
 		}
 		sc.close();
 	}
 
 	private void setProductos() {
-		this.productos.putAll(atracciones);
+		this.productos.putAll(this.atracciones);
 		for (Promocion promo : this.promociones)
 			this.productos.put(promo.getNombre(), promo);
 	}
@@ -148,9 +149,9 @@ public class SecretariaTurismo {
 
 	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {
 		if (itinerario.getNuevoItinerario())
-			gestorItinerarios.insert(itinerario);
+			this.gestorItinerarios.insert(itinerario);
 		else
-			gestorItinerarios.update(itinerario);
+			this.gestorItinerarios.update(itinerario);
 
 	}
 }
