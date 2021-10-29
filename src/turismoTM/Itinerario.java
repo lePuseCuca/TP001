@@ -1,13 +1,12 @@
 package turismoTM;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Itinerario {
 	private String idUsuario;
 	private List<Producto> productos;
-	private boolean nuevoItinerario = true;
+	private boolean primeraCompra = true;
 	private List<String> nuevosProductos;
 	// COBRAR SOLO LOS NUEVOS!!!
 	
@@ -18,16 +17,16 @@ public class Itinerario {
 	}
 	
 	public void setNuevoItinerario() {
-		this.nuevoItinerario = false;
+		this.primeraCompra = false;
 	}
 	
 	public boolean getNuevoItinerario() {
-		return this.nuevoItinerario;
+		return this.primeraCompra;
 	}
 	
 	public void addProducto(Producto producto) {
 		this.productos.add(producto);
-		if(!nuevoItinerario)
+		if(!primeraCompra)
 			this.nuevosProductos.add(producto.getNombre());
 	}
 	
@@ -45,31 +44,41 @@ public class Itinerario {
 	
 	public String getNombreUsuario () {
 		return this.idUsuario;
-	}
+	}	
 	
-	public boolean getNuevoItinerario() {
-		return this.nuevoItinerario;
-	}
-	
-	
-}
+	public void mostrarItinerario() {
 
-/*
- * PrintWriter salida;
-		salida = new PrintWriter(usr.getNombre() + ".out");
-
-		if (itinerario.size() > 0) {
-			
-			salida.println("Itinerario para " + usr.getNombre());
-			for (Producto prd : itinerario)
-				salida.println(prd);
-			salida.println("________________________________________________________");
-			salida.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario(itinerario)) + " - Tiempo necesario: "
-					+ calcularTiempoItinerario(itinerario) + " hs.");
+		if (this.productos.size() > 0) {
+			System.out.println("________________________________________________________");
+			System.out.println("Itinerario para " + this.idUsuario);
+			for (Producto prd : this.productos)
+				System.out.print(prd);
+			System.out.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario()) + " - Tiempo necesario: "
+					+ calcularTiempoItinerario() + " hs.");
+			System.out.println("________________________________________________________");
 		} else {
-			salida.println("___________________________________________");
-			salida.println(usr.getNombre() + ", tu itinerario esta vacio.");
-			salida.println("___________________________________________");
+			System.out.println("___________________________________________");
+			System.out.println(this.idUsuario + ", tu itinerario esta vacio.");
+			System.out.println("___________________________________________");
 		}
-		
-		salida.close();*/
+
+	}
+
+	private double calcularCostoItinerario() {
+		double costoItinerario = 0;
+		if (this.productos != null) {
+			for (Producto compra : this.productos)
+				costoItinerario += compra.getCosto();
+		}
+		return costoItinerario;
+	}
+
+	private double calcularTiempoItinerario() {
+		double tiempoItinerario = 0;
+		if (this.productos != null) {
+			for (Producto compra : this.productos)
+				tiempoItinerario += compra.getTiempo();
+		}
+		return tiempoItinerario;
+	}
+}

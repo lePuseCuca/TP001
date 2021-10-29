@@ -19,12 +19,11 @@ public class UsuarioTest {
 		assertNotNull(u);
 	}
 
-	@Test
-	public void queDescuentaPresupuestoAlPagarItinerario() {
-		assertEquals(100, u.getPresupuesto(), 0.0);
-		u.comprarItinerario(50);
-		assertEquals(50, u.getPresupuesto(), 0.0);
-	}
+	/*
+	 * @Test public void queDescuentaPresupuestoAlPagarItinerario() {
+	 * assertEquals(100, u.getPresupuesto(), 0.0); u.comprarItinerario(50);
+	 * assertEquals(50, u.getPresupuesto(), 0.0); }
+	 */
 
 	@Test(expected = ErrorDatosException.class)
 	public void queArrojaExcepcionSiPresupuestoNegativo() throws ErrorDatosException {

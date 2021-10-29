@@ -22,14 +22,25 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 	@Override
 	public int countAll() {
-		return 0;
+		try {
+			String sql = "SELECT COUNT(1) AS TOTAL FROM promociones";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet resultados = statement.executeQuery();
+
+			resultados.next();
+			int total = resultados.getInt("TOTAL");
+
+			return total;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
 	}
 
 	@Override
 	public int insert(Promocion promo) {
 		return 0;
 	}
-	
 	
 	@Override
 	public int update(Promocion promo) {

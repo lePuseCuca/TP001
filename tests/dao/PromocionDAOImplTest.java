@@ -12,12 +12,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import turismoTM.Atraccion;
-import turismoTM.LectorArchivos;
 import turismoTM.Promocion;
 
 public class PromocionDAOImplTest {
 
-	Map<String, Atraccion> atracciones = LectorArchivos.cargarAtracciones("atracciones.in");
+	AtraccionesDAO atrDAO = DAOFactory.getAtraccionesDAO();
+	Map<String, Atraccion> atracciones = atrDAO.findAllAtracciones();
 	
 	private static Connection conn;
 
@@ -38,32 +38,16 @@ public class PromocionDAOImplTest {
 	}
 	
 	@Test
-	public void findAllTest() {
-		//usar size() + countAll()
+	public void countAllTest() {
 		PromocionDAO promocionDAO = new PromocionDAOImpl();
-		
-		List<Promocion> promociones = promocionDAO.findAll(atracciones);
-		
-		System.out.println(promociones);
+		int total = promocionDAO.countAll();
+		assertEquals(3, total);
 	}
-
+	
+	@Test
+	public void findAllTest() {
+		PromocionDAO promocionDAO = new PromocionDAOImpl();
+		List<Promocion> promociones = promocionDAO.findAll(atracciones);
+		assertEquals(promocionDAO.countAll(), promociones.size());
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

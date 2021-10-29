@@ -6,9 +6,6 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		SecretariaTurismo st = new SecretariaTurismo();
-		
 		st.sugerirProductos();
-
 	}
-
 }

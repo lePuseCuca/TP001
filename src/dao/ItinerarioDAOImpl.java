@@ -3,45 +3,40 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import turismoTM.Itinerario;
 import turismoTM.Producto;
 
-public class ItinerarioDAOImpl implements ItinerarioDAO{
+public class ItinerarioDAOImpl implements ItinerarioDAO {
 
-	private Connection conn;	
-	
-	public ItinerarioDAOImpl() {
-		try {
-			this.conn = ConnectionProvider.getConnection();
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}		
-	}
-	
+	@Override
 	public List<Itinerario> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	/*
+	 * Recibe el nombre de un usuario y el mapa de todos productos. Devuelve un
+	 * objeto de tipo itinerario si encuentra productos en la db ya comprados por
+	 * ese usuario o null si nunca compró un producto.
+	 */
 	public Itinerario findItinerarioByUsuario(String idUsuario, Map<String, Producto> productos) {
 		try {
-			//conn = ConnectionProvider.getConnection();
+			Connection conn = ConnectionProvider.getConnection();
 			Itinerario itinerario = null;
 			String sql = "SELECT id_usuario, id_producto FROM itinerarios WHERE id_usuario = ?;";
-			PreparedStatement statement = this.conn.prepareStatement(sql);
+			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, idUsuario);
-			
+
 			ResultSet resultados = statement.executeQuery();
-			
-			// Validar si existe producto		
-			
+
+			// Validar si existe producto
+
 			if (resultados.next())
 				itinerario = toItinerario(resultados, productos);
-			
+
 			return itinerario;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
@@ -52,88 +47,73 @@ public class ItinerarioDAOImpl implements ItinerarioDAO{
 	public int countAll() {
 		try {
 			int totalItinerarios = 0;
-			conn = ConnectionProvider.getConnection();
+			Connection conn = ConnectionProvider.getConnection();
 			String sql = "SELECT count(DISTINCT id_usuario) AS 'total_itinerarios' FROM itinerarios";
-			PreparedStatement statement = this.conn.prepareStatement(sql);
-					
+			PreparedStatement statement = conn.prepareStatement(sql);
+
 			ResultSet resultados = statement.executeQuery();
-			
-			while(resultados.next()) {	
+
+			while (resultados.next()) {
 				totalItinerarios = resultados.getInt("total_itinerarios");
 			}
 			return totalItinerarios;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
-		}		
+		}
 	}
 
-	
 	public int insert(Itinerario it) {
 		try {
 			int totalInsertado = 0;
-			conn = ConnectionProvider.getConnection();
+			Connection conn = ConnectionProvider.getConnection();
 			String sql = "INSERT INTO itinerarios (id_usuario, id_producto) VALUES (? , ?);";
-			PreparedStatement statement = this.conn.prepareStatement(sql);
-			
+			PreparedStatement statement = conn.prepareStatement(sql);
+
 			for (Producto prod : it.getProductos()) {
 				statement.setString(1, it.getNombreUsuario());
 				statement.setString(2, prod.getNombre());
 				totalInsertado += statement.executeUpdate();
 			}
-			
+
 			return totalInsertado;
-			
+
 		} catch (Exception e) {
 			throw new MissingDataException(e);
-		}	
-		
+		}
+
 	}
 
-	
 	public int update(Itinerario it) {
 		try {
 			int totalInsertado = 0;
-			conn = ConnectionProvider.getConnection();
+			Connection conn = ConnectionProvider.getConnection();
 			String sql = "INSERT INTO itinerarios (id_usuario, id_producto) VALUES (? , ?);";
-			PreparedStatement statement = this.conn.prepareStatement(sql);
-			
+			PreparedStatement statement = conn.prepareStatement(sql);
+
 			for (String nombreProd : it.getNuevosProductos()) {
 				statement.setString(1, it.getNombreUsuario());
 				statement.setString(2, nombreProd);
 				totalInsertado += statement.executeUpdate();
 			}
-			
 			return totalInsertado;
-			
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}	
-		
-	}
-
-	
-	public int delete(Itinerario t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	@SuppressWarnings("unused")
-	private Itinerario toItinerario (ResultSet resultados, Map<String, Producto> productos) {
-		
-		try {
-			Itinerario itinerario = new Itinerario (resultados.getString("id_usuario"));
-			do {
-				itinerario.addProducto(productos.get(resultados.getString("id_producto")));
-			}while(resultados.next());
-			
-			itinerario.setNuevoItinerario(false);
-			
-			return itinerario;
-			
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
-			
 	}
 
+	public int delete(Itinerario t) {
+		return 0;
+	}
+
+	private Itinerario toItinerario(ResultSet resultados, Map<String, Producto> productos) throws SQLException {
+
+		Itinerario itinerario = new Itinerario(resultados.getString("id_usuario"));
+		do {
+			itinerario.addProducto(productos.get(resultados.getString("id_producto")));
+		} while (resultados.next());
+
+		itinerario.setNuevoItinerario();
+
+		return itinerario;
+	}
 }
