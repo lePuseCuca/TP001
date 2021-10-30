@@ -9,9 +9,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import turismoTM.Atraccion;
-import turismoTM.ErrorDatosException;
-import turismoTM.Tipo;
+import jdbc.ConnectionProvider;
+import model.Atraccion;
+import model.ErrorDatosException;
+import model.Tipo;
 
 public class AtraccionesDAOTest {
 

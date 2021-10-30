@@ -12,10 +12,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import turismoTM.Atraccion;
-import turismoTM.Itinerario;
-import turismoTM.Producto;
-import turismoTM.Promocion;
+import jdbc.ConnectionProvider;
+import model.Atraccion;
+import model.Itinerario;
+import model.Producto;
+import model.Promocion;
 
 public class ItinerarioDAOImplTest {
 

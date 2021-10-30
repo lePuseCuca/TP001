@@ -3,14 +3,16 @@ package dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jdbc.ConnectionProvider;
+import model.Atraccion;
+import model.ErrorDatosException;
+import model.Tipo;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import turismoTM.Atraccion;
-import turismoTM.ErrorDatosException;
-import turismoTM.Tipo;
 
 public class AtraccionesDAOImpl implements AtraccionesDAO {
 

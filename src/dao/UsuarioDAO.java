@@ -1,6 +1,6 @@
 package dao;
 
-import turismoTM.Usuario;
+import model.Usuario;
 
 public interface UsuarioDAO extends GenericDAO<Usuario>{
 	

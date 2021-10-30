@@ -2,7 +2,7 @@ package dao;
 
 import java.util.Map;
 
-import turismoTM.Atraccion;
+import model.Atraccion;
 
 public interface AtraccionesDAO extends GenericDAO<Atraccion>{
 	

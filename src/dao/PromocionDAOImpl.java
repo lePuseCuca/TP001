@@ -9,14 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import turismoTM.Atraccion;
-import turismoTM.ErrorDatosException;
-import turismoTM.Promocion;
-import turismoTM.PromocionAbsoluta;
-import turismoTM.PromocionAxB;
-import turismoTM.PromocionPorcentual;
-import turismoTM.Tipo;
-import turismoTM.TipoPromocion;
+import jdbc.ConnectionProvider;
+import model.Atraccion;
+import model.ErrorDatosException;
+import model.Promocion;
+import model.PromocionAbsoluta;
+import model.PromocionAxB;
+import model.PromocionPorcentual;
+import model.Tipo;
+import model.TipoPromocion;
 
 public class PromocionDAOImpl implements PromocionDAO {
 

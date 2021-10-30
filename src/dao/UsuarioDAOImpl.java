@@ -7,21 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import turismoTM.ErrorDatosException;
-import turismoTM.Tipo;
-import turismoTM.Usuario;
+import jdbc.ConnectionProvider;
+import model.ErrorDatosException;
+import model.Tipo;
+import model.Usuario;
 
 public class UsuarioDAOImpl implements UsuarioDAO{
 
 	@Override
-	public List<Usuario> findAll() { // HAY TEST
+	public List<Usuario> findAll() { 
 		try {
 			String sql = "SELECT * FROM USUARIOS";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
-			// ACA DEBERIAMOS PASAR A UN ARRAYLIST?
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 			while (resultados.next()) {
 				usuarios.add(toUsuario(resultados));
@@ -34,7 +34,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 
 	@Override
-	public int countAll() { // HAY TEST
+	public int countAll() { 
 		try {
 			String sql = "SELECT COUNT(1) AS TOTAL FROM USUARIOS";
 			Connection conn = ConnectionProvider.getConnection();
@@ -52,7 +52,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 
 	@Override
-	public int insert(Usuario usuario) { // HAY TEST
+	public int insert(Usuario usuario) { 
 		try {
 			String sql = "INSERT INTO usuarios (nombre, monedas, tiempo, tipo_preferido) VALUES (?, ?, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
@@ -72,7 +72,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 
 	@Override
-	public int update(Usuario usuario) { //HAY TEST
+	public int update(Usuario usuario) { 
 		try {
 			String sql = "UPDATE usuarios SET nombre = ?, monedas = ?, tiempo = ?, tipo_preferido = ? WHERE nombre = ?";
 			Connection conn = ConnectionProvider.getConnection();

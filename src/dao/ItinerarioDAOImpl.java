@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import turismoTM.Itinerario;
-import turismoTM.Producto;
+import jdbc.ConnectionProvider;
+import model.Itinerario;
+import model.Producto;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 

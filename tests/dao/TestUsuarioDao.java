@@ -9,8 +9,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import turismoTM.Tipo;
-import turismoTM.Usuario;
+import jdbc.ConnectionProvider;
+import model.Tipo;
+import model.Usuario;
 
 public class TestUsuarioDao {
 

@@ -3,8 +3,8 @@ package dao;
 import java.util.List;
 import java.util.Map;
 
-import turismoTM.Atraccion;
-import turismoTM.Promocion;
+import model.Atraccion;
+import model.Promocion;
 
 public interface PromocionDAO extends GenericDAO<Promocion> {
 		

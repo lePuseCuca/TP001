@@ -9,6 +9,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import jdbc.ConnectionProvider;
+
 public class TestGenerico {
 	
 	private static Connection conn;

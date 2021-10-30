@@ -2,8 +2,8 @@ package dao;
 
 import java.util.Map;
 
-import turismoTM.Itinerario;
-import turismoTM.Producto;
+import model.Itinerario;
+import model.Producto;
 
 public interface ItinerarioDAO extends GenericDAO<Itinerario> {
 	

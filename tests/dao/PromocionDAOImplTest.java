@@ -11,8 +11,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import turismoTM.Atraccion;
-import turismoTM.Promocion;
+import jdbc.ConnectionProvider;
+import model.Atraccion;
+import model.Promocion;
 
 public class PromocionDAOImplTest {
 
