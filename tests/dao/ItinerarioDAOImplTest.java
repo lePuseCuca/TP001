@@ -49,6 +49,9 @@ public class ItinerarioDAOImplTest {
 	@Test
 	public void queCargaItinerarioPorUsuario() {
 		ItinerarioDAO gestorItinerario = DAOFactory.getItinerarioDAO();
+		Itinerario itiAux = new Itinerario("Gandalf");
+		itiAux.addProducto(productos.get("Erebor"));
+		gestorItinerario.insert(itiAux);
 		Itinerario itinerarioUsuarioA = gestorItinerario.findItinerarioByUsuario("Gandalf", productos);
 		Itinerario itinerarioUsuarioB = gestorItinerario.findItinerarioByUsuario("Dumbledore", productos);
 		assertEquals(gestorItinerario.countAll(), itinerarioUsuarioA.getTotalProductos(), 0);
@@ -59,6 +62,9 @@ public class ItinerarioDAOImplTest {
 	@Test
 	public void queCuentaItinerarios() {
 		ItinerarioDAO gestorItinerario = DAOFactory.getItinerarioDAO();
+		Itinerario itiAux = new Itinerario("Gandalf");
+		itiAux.addProducto(productos.get("Erebor"));
+		gestorItinerario.insert(itiAux);
 		assertTrue(gestorItinerario.countAll() > 0);
 	}
 

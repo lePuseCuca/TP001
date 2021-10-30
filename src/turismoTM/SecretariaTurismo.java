@@ -103,11 +103,14 @@ public class SecretariaTurismo {
 				try {
 					this.gestorUsuarios.update(usr);
 					guardarItinerario(itinerario); // itinerario.guardar()
+					
+					
 				} catch (MissingDataException e) {
 					System.err.print("El itinerario no se guardo correctamente");
 				}
 		}
 		sc.close();
+		
 	}
 
 	private void setProductos() {
@@ -152,10 +155,14 @@ public class SecretariaTurismo {
 	}
 
 	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {
-		if (itinerario.getNuevoItinerario())
-			this.gestorItinerarios.insert(itinerario);
-		else
+		if (itinerario.getNuevoItinerario()) {
+			this.gestorItinerarios.insert(itinerario);					
+		}else {
 			this.gestorItinerarios.update(itinerario);
+		}
+		
+		for (Atraccion atr : this.atracciones.values())
+			gestorAtracciones.update(atr);
 
 	}
 }
