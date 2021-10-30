@@ -32,8 +32,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			ResultSet resultados = statement.executeQuery();
 
-			// Validar si existe producto
-
 			if (resultados.next())
 				itinerario = toItinerario(resultados, productos);
 

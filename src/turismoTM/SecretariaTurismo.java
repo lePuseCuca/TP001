@@ -43,7 +43,7 @@ public class SecretariaTurismo {
 		return this.productos;
 	}
 
-	public void sugerirProductos() {
+	public void sugerirProductos() throws InterruptedException {
 		double presupuestoCliente;
 		double tiempoCliente;
 		double costoCompra;
@@ -93,7 +93,11 @@ public class SecretariaTurismo {
 					} while (respuesta != 's' && respuesta != 'S' && respuesta != 'N' && respuesta != 'n');
 				}
 			}
-
+			if(costoCompra == 0) {
+				System.out.println(usr.getNombre() + " no realizó ninguna compra.");
+				System.out.println("Cargando itinerario anterior...");
+				Thread.sleep(4000);
+			}
 			itinerario.mostrarItinerario();
 			if (usr.comprarItinerario(costoCompra, tiempoCompra))
 				try {

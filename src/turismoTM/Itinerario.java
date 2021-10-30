@@ -45,7 +45,7 @@ public class Itinerario {
 	public String getNombreUsuario () {
 		return this.idUsuario;
 	}	
-	
+	//toString()
 	public void mostrarItinerario() {
 
 		if (this.productos.size() > 0) {

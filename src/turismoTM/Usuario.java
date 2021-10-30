@@ -46,6 +46,6 @@ public class Usuario {
 	}
 	
 	private boolean validarDato(double dato) {
-		return (dato > 0);
+		return (dato >= 0);
 	}	
 }

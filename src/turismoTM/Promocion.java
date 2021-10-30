@@ -59,7 +59,6 @@ public class Promocion extends Producto{
 		if (vendible)
 			for (Atraccion atr: this.atracciones)
 				atr.restarCupo();
-		
 		return vendible;
 	}	
 	
