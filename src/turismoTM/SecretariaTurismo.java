@@ -71,6 +71,7 @@ public class SecretariaTurismo {
 				if (!atraccionComprada(sugerencia, itinerario.getProductos())
 						&& puedeComprar(sugerencia, presupuestoCliente, tiempoCliente)) {
 
+					System.out.println("________________________________________________________");
 					System.out.println(usr.getNombre() + ",\ntu presupuesto actual es de: $"
 							+ String.format("%.0f", presupuestoCliente) + " y dispones de " + tiempoCliente + " hs.\n");
 					System.out.println("Deseas adquirir:");
@@ -95,8 +96,18 @@ public class SecretariaTurismo {
 			}
 			if(costoCompra == 0) {
 				System.out.println(usr.getNombre() + " no realizó ninguna compra.");
-				System.out.println("Cargando itinerario anterior...");
-				Thread.sleep(4000);
+				System.out.print("Cargando itinerario anterior.");
+				Thread.sleep(500);
+				System.out.print(".");
+				Thread.sleep(500);
+				System.out.print(".");
+				Thread.sleep(500);
+				System.out.print(".");
+				Thread.sleep(500);
+				System.out.print(".");
+				Thread.sleep(500);
+				System.out.print(".\n");
+				Thread.sleep(500);
 			}
 			itinerario.mostrarItinerario();
 			if (usr.comprarItinerario(costoCompra, tiempoCompra))
