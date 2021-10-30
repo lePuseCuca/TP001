@@ -44,24 +44,29 @@ public class Itinerario {
 	
 	public String getNombreUsuario () {
 		return this.idUsuario;
-	}	
-	//toString()
-	public void mostrarItinerario() {
-
+	}
+	
+	
+	@Override
+	public String toString() {
+		String resumen = "";
 		if (this.productos.size() > 0) {
-			System.out.println("________________________________________________________");
-			System.out.println("Itinerario para " + this.idUsuario);
-			for (Producto prd : this.productos)
-				System.out.print(prd);
-			System.out.println("COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario()) + " - Tiempo necesario: "
-					+ calcularTiempoItinerario() + " hs.");
-			System.out.println("________________________________________________________");
+			resumen += "________________________________________________________\n" +
+						"Itinerario para " + this.idUsuario + "\n";
+			
+			for (Producto prd : this.productos) resumen += prd.toString();
+			
+			resumen += "COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario()) + " - Tiempo necesario: "
+					+ calcularTiempoItinerario() + " hs.\n" +
+					"________________________________________________________\n";
+			
 		} else {
-			System.out.println("___________________________________________");
-			System.out.println(this.idUsuario + ", tu itinerario esta vacio.");
-			System.out.println("___________________________________________");
+			
+			resumen += "___________________________________________\n" +
+					this.idUsuario + ", tu itinerario esta vacio.\n" +
+					"___________________________________________\n";
 		}
-
+		return resumen;
 	}
 
 	private double calcularCostoItinerario() {

@@ -109,7 +109,7 @@ public class SecretariaTurismo {
 				System.out.print(".\n");
 				Thread.sleep(500);
 			}
-			itinerario.mostrarItinerario();
+			System.out.println(itinerario);
 			if (usr.comprarItinerario(costoCompra, tiempoCompra))
 				try {
 					this.gestorUsuarios.update(usr);
