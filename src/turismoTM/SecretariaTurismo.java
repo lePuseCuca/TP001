@@ -168,7 +168,7 @@ public class SecretariaTurismo {
 	private void guardarItinerario(Itinerario itinerario) throws MissingDataException {
 		if (itinerario.getNuevoItinerario()) {
 			this.gestorItinerarios.insert(itinerario);					
-		}else {
+		if (!itinerario.getNuevosProductos().isEmpty())
 			this.gestorItinerarios.update(itinerario);
 		}
 		
