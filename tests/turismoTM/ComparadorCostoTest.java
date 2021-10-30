@@ -10,6 +10,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import dao.AtraccionesDAOImpl;
+import dao.PromocionDAOImpl;
+
 public class ComparadorCostoTest {
 	
 	private Map<String, Atraccion> mapaAtracciones = new HashMap<String, Atraccion>();;
@@ -19,8 +22,8 @@ public class ComparadorCostoTest {
 
 	@Before
 	public void setUp(){
-		mapaAtracciones = LectorArchivos.cargarAtracciones("atracciones.in");
-		promociones = LectorArchivos.cargarPromociones("promociones.in", mapaAtracciones);
+		mapaAtracciones = new AtraccionesDAOImpl().findAllAtracciones();
+		promociones = new PromocionDAOImpl().findAll(mapaAtracciones);
 		listaProductos = new ArrayList<>(mapaAtracciones.values());
 		for(Promocion prod : promociones )
 			listaProductos.add(prod);
