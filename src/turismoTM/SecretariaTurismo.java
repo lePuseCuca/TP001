@@ -98,7 +98,7 @@ public class SecretariaTurismo {
 				System.out.println("Cargando itinerario anterior...");
 				Thread.sleep(4000);
 			}
-			itinerario.mostrarItinerario();
+			System.out.println(itinerario);
 			if (usr.comprarItinerario(costoCompra, tiempoCompra))
 				try {
 					this.gestorUsuarios.update(usr);
