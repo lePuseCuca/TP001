@@ -16,7 +16,7 @@ public class Itinerario {
 		this.nuevosProductos = new ArrayList<String>();
 	}
 	
-	public void setNuevoItinerario() {
+	public void setPrimeraCompraFalso() {
 		this.primeraCompra = false;
 	}
 	

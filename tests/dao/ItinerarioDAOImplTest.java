@@ -73,11 +73,9 @@ public class ItinerarioDAOImplTest {
 	public void queInsertaItinerario() {
 		ItinerarioDAO gestorItinerario = DAOFactory.getItinerarioDAO();
 		Itinerario iti = new Itinerario("Sam");
-		// iti.mostrarItinerario();
 		iti.addProducto(productos.get("Erebor"));
 		iti.addProducto(productos.get("Pack Sabores"));
 		assertEquals(iti.getTotalProductos(), gestorItinerario.insert(iti), 0);
-		// iti.mostrarItinerario();
 	}
 
 	@Test
