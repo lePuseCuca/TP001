@@ -8,8 +8,7 @@ public class Itinerario {
 	private List<Producto> productos;
 	private boolean primeraCompra = true;
 	private List<String> nuevosProductos;
-	// COBRAR SOLO LOS NUEVOS!!!
-	
+		
 	public Itinerario (String idUsuario) {
 		this.idUsuario = idUsuario;
 		this.productos = new ArrayList<Producto>();

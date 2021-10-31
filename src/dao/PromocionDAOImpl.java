@@ -88,7 +88,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 			if(atracciones.containsKey(nombreAtr))
 				tempAt.add(atracciones.get(nombreAtr));
 			else
-				atraccionInexistente = true; //Ojo que si alguna atracción no existe no se carga nada
+				atraccionInexistente = true; 
 		
 		String tipoPromo = resultados.getString("tipo_promocion");
 		switch (tipoPromo) {
@@ -100,7 +100,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 							TipoPromocion.valueOf(tipoPromo), 
 							tempAt,
 							Tipo.valueOf(resultados.getString("tipo_atracciones")),
-							Double.parseDouble(resultados.getString("descuento"))); //Probar getDouble()
+							Double.parseDouble(resultados.getString("descuento"))); 
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (ErrorDatosException e) {

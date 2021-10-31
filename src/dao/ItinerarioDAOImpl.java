@@ -19,9 +19,9 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 	}
 
 	/*
-	 * Recibe el nombre de un usuario y el mapa de todos productos. Devuelve un
+	 * Recibe el nombre de un usuario y el mapa de todos los productos. Devuelve un
 	 * objeto de tipo itinerario si encuentra productos en la db ya comprados por
-	 * ese usuario o null si nunca comprÃ³ un producto.
+	 * ese usuario o null si nunca compró un producto.
 	 */
 	public Itinerario findItinerarioByUsuario(String idUsuario, Map<String, Producto> productos) {
 		try {
