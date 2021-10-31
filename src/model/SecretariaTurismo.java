@@ -78,7 +78,7 @@ public class SecretariaTurismo {
 					System.out.println(sugerencia);
 
 					do {
-						System.out.println("Presiona S o N.");
+						System.out.println("Presionar [S]i o [N]o.");
 						respuesta = sc.next().charAt(0);
 						if (respuesta == 'n' || respuesta == 'N')
 							continue;
@@ -95,10 +95,8 @@ public class SecretariaTurismo {
 				}
 			}
 			if(costoCompra == 0) {
-				System.out.println(usr.getNombre() + " no realizÃ³ ninguna compra.");
+				System.out.println(usr.getNombre() + " no realizó ninguna compra.");
 				System.out.print("Cargando itinerario anterior.");
-				Thread.sleep(500);
-				System.out.print(".");
 				Thread.sleep(500);
 				System.out.print(".");
 				Thread.sleep(500);

@@ -51,20 +51,20 @@ public class Itinerario {
 	public String toString() {
 		String resumen = "";
 		if (this.productos.size() > 0) {
-			resumen += "________________________________________________________\n" +
+			resumen += "+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
 						"Itinerario para " + this.idUsuario + "\n";
 			
 			for (Producto prd : this.productos) resumen += prd.toString();
 			
 			resumen += "COSTO TOTAL: $" + String.format("%.0f", calcularCostoItinerario()) + " - Tiempo necesario: "
 					+ calcularTiempoItinerario() + " hs.\n" +
-					"________________________________________________________\n";
+					"+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			
 		} else {
 			
-			resumen += "___________________________________________\n" +
+			resumen += "+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
 					this.idUsuario + ", tu itinerario esta vacio.\n" +
-					"___________________________________________\n";
+					"+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
 		return resumen;
 	}
